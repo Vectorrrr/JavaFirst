@@ -7,176 +7,187 @@ import java.util.Stack;
  * Created by CraZy_IVAN on 15.02.16.
  */
 public class Parser {
-    private final int MAX_LENGTH_AFTER_DOT = 5;
-
-    // todo Maybe keep it in the other place?
-    //todo Проблема, что можно вычислять сразу, когда наткнулся, но это плохо(
-    //todo может хранить в отдельном классе?
-    static public Stack<Double> operands;
-    static public Stack<String> operations;
+    //todo May be const I don't know
+    public static int MAX_LENGTH_AFTER_DOT = 5;
+    public static int MAX_SING = 18;
 
     private Settings settings;
 
     public Parser() {
-        operands = new Stack<Double>();
-        operations = new Stack<String>();
+
         settings = new Settings();
     }
 
     //flase if incorrect String
     //true if correct
     public boolean createStacks(String s) {
-        clearStack();
-        Stack<String> tempStackOper = new Stack<String>();
+        //show the last time we read Number
+        boolean flagNumber = false;
 
+        //show we read dot,or not
         boolean flagDot = false;
-        boolean flagNumber=false;
-        boolean flagUnarOper = false;
+        //show we read operation last or not
+        boolean flagOper = false;
 
-        double tempVal = 0;
-        //todo how give name variable
-        double powAfterDot = 0.1;
-        //count digit in Number
-        int count = 0;
+        double tempValue = 0;
 
+        int countSing = 0;
+        //May be make one place for this
+        int countAfterDot = 0;
+        double mulAfterDot = 0.1;
         for (int i = 0; i < s.length(); ++i) {
+            //todo How better transfor to string
+            String val = new Character(s.charAt(i)).toString();
+            val = val.intern();
 
-            if (s.charAt(i) == ' ') {
-                if(flagNumber){
-                    powAfterDot = 0.1;
-                    operands.push(tempVal);
-                    flagNumber=false;
-                    tempVal=0;
-                }
-                tempVal = 0;
-                flagDot = false;
+            if (val == " ") {
+
+
                 continue;
             }
-
-            if (s.charAt(i) == '.') {
-                count = 0;
+            if (val == ".") {
                 flagDot = true;
                 continue;
             }
 
             if (Character.isDigit(s.charAt(i))) {
-                flagUnarOper = false;
-                flagNumber=true;
+                flagNumber = true;
                 if (flagDot) {
-                    if (++count > MAX_LENGTH_AFTER_DOT) {
+                    if (++countAfterDot > MAX_LENGTH_AFTER_DOT) {
+                        System.out.println("You whant a lot of sing after dot!!!");
                         return false;
-                    } else {
-                        tempVal += Character.getNumericValue(s.charAt(i)) * powAfterDot;
-                        powAfterDot /= 10;
                     }
+                    tempValue += Double.valueOf(val) * mulAfterDot;
+                    mulAfterDot /= 10;
+
                 } else {
-                    if (++count >= 19) {
+                    if (++countSing > MAX_SING) {
+                        System.out.println("You whant a lot of sing!!!");
                         return false;
-                    } else {
-                        tempVal = tempVal * 10 + Character.getNumericValue(s.charAt(i));
                     }
+                    tempValue = tempValue * 10 + Double.valueOf(val);
                 }
             } else {
-                powAfterDot = 0.1;
-                if(flagNumber){
-                    operands.push(tempVal);
-                    flagNumber=false;
-                    tempVal=0;
+                //todo May be make it function?
+                if (flagNumber) {
+                    flagNumber = false;
+                    Sequnce.mainSequence.add(new Data(tempValue));
+                    flagDot = false;
+                    countAfterDot = 0;
+                    countSing = 0;
+                    mulAfterDot = 0.1;
+                    tempValue = 0;
                 }
-                flagDot=false;
+                if (!isOperation(val)) {
+                    System.out.println("You input incorrect operation!!!");
+                    return false;
+                }
+                val = getDefualtSign(val);
+                val=val.intern();
+
+                if (val == "(") {
+                    Sequnce.tempOperStack.push(new Operation("(", getPriority(val), getDefualtSign(val)));
+                    continue;
+                }
+                if (val == ")") {
+
+                    while (Sequnce.tempOperStack.size() != 0 &&
+                            Sequnce.tempOperStack.peek().getDefaulSing() != "(") {
+                        Sequnce.mainSequence.add(new Data(Sequnce.tempOperStack.peek()));
+                        Sequnce.tempOperStack.pop();
 
 
-                //todo may be1 one cycle
-                if (s.charAt(i) == ')') {
-                    if (tempStackOper.size() == 0) {
+                    }
+
+                    if (Sequnce.tempOperStack.size() == 0 || Sequnce.tempOperStack.peek().getDefaulSing() != "(") {
+                        System.out.println("Stack clear but you put ) Try again");
                         return false;
                     }
-                    while (tempStackOper.size() > 0 && tempStackOper.peek() != "(") {
-                        operations.push(tempStackOper.peek());
-                        tempStackOper.pop();
-                    }
-                    if (tempStackOper.peek() != "(") {
-                        return false;
-                    }else{
-                        tempStackOper.pop();
-                    }
+                    Sequnce.tempOperStack.pop();
+                    continue;
                 }
-                else if(s.charAt(i)=='('){
-                    tempStackOper.push("(");
+                while (Sequnce.tempOperStack.size() > 0 &&
+                        Sequnce.tempOperStack.peek().getPriory() >= getPriority(val) &&
+                        Sequnce.tempOperStack.peek().getDefaulSing() != "(") {
+                    Sequnce.mainSequence.add(new Data(Sequnce.tempOperStack.peek()));
+                    Sequnce.tempOperStack.pop();
+
                 }
-                else if(s.charAt(i)=='+'){
-                    while (tempStackOper.size() > 0 && tempStackOper.peek()!="(" && getPriority(tempStackOper.peek())<getPriority("+") ) {
-                        operations.push(tempStackOper.peek());
-                        tempStackOper.pop();
-                    }
-                    tempStackOper.push("+");
+                if (val == "+") {
+                    //todo переписать что бы находило в нашей последовательности?
+                    Sequnce.tempOperStack.push(new Operation("+", 1, "+"));
+                    continue;
                 }
-                else if(s.charAt(i)=='-'){
-                    while (tempStackOper.size() > 0 && getPriority(tempStackOper.peek())<=getPriority("-")) {
-                        operations.push(tempStackOper.peek());
-                        tempStackOper.pop();
-                    }
-                    tempStackOper.push("-");
-                }
-                else if(s.charAt(i)=='*'){
-                    while (tempStackOper.size() > 0 && getPriority(tempStackOper.peek())<=getPriority("*")) {
-                        operations.push(tempStackOper.peek());
-                        tempStackOper.pop();
-                    }
-                    tempStackOper.push("*");
-                }
-                else if(s.charAt(i)=='/'){
-                    while (tempStackOper.size() > 0 && getPriority(tempStackOper.peek())<=getPriority("/")) {
-                        operations.push(tempStackOper.peek());
-                        tempStackOper.pop();
-                    }
-                    tempStackOper.push("/");
-                }
-                else if(s.charAt(i)=='^'){
-                    while (tempStackOper.size() > 0 && getPriority(tempStackOper.peek())<=getPriority("^")) {
-                        operations.push(tempStackOper.peek());
-                        tempStackOper.pop();
-                    }
-                    tempStackOper.push("^");
+                if (val == "*") {
+                    //todo переписать что бы находило в нашей последовательности?
+                    Sequnce.tempOperStack.push(new Operation("*", 2, "*"));
+                    continue;
                 }
             }
+
+
         }
-        if(flagNumber){
-            operands.push(tempVal);
-            flagNumber=false;
-            tempVal=0;
+        if (flagNumber) {
+            flagNumber = false;
+            Sequnce.mainSequence.add(new Data(tempValue));
+            flagDot = false;
+            countAfterDot = 0;
+            countSing = 0;
+            mulAfterDot = 0.1;
+            tempValue = 0;
         }
-        while(tempStackOper.size()!=0){
-            if(tempStackOper.peek().equals("(")
-                    || tempStackOper.peek().equals(")")){
+        while (Sequnce.tempOperStack.size() > 0                 ) {
+            if(Sequnce.tempOperStack.peek().getDefaulSing() == "("){
+                System.out.println("You input invalid data!!!");
                 return false;
             }
-            operations.push(tempStackOper.peek());
-            tempStackOper.pop();
+            Sequnce.mainSequence.add(new Data(Sequnce.tempOperStack.peek()));
+            Sequnce.tempOperStack.pop();
+
         }
+
         return true;
     }
 
-    private int getPriority(String oper) {
-        for (Priory t : Settings.priories){
-            if(t.getSign().equals(oper)){
-                return t.getPriory();
+    //check is operation or not
+    private boolean isOperation(String oper) {
+        String temp = oper.intern();
+        for (Operation data : Sequnce.allOperation) {
+            if (data.getOverrideSing() == temp) {
+                return true;
             }
         }
-        return -1;
+        return false;
     }
 
-    private String getSign(String oper){
-        for (Priory t : Settings.priories){
-            if(t.getSign().equals(oper)){
-                return t.getMathSing();
+    private int getPriority(String oper) {
+        String temp = oper.intern();
+        //todo foreach?
+        for (Operation data : Sequnce.allOperation) {
+            if (data.getOverrideSing() == temp) {
+                return data.getPriory();
             }
         }
-        return new String();
+        //todo other way
+        throw new Error();
+    }
+
+    //return defualtSing or string empty
+    private String getDefualtSign(String oper) {
+        String temp = oper.intern();
+        //todo foreach?
+        for (Operation data : Sequnce.allOperation) {
+            if (data.getOverrideSing() == temp) {
+                return data.getDefaulSing();
+            }
+        }
+        //todo other way
+        throw new Error();
     }
 
     private void clearStack() {
-        operands.clear();
-        operations.clear();
+        Sequnce.mainSequence.clear();
+        Sequnce.tempOperStack.clear();
+        Sequnce.tempValueStack.clear();
     }
 }

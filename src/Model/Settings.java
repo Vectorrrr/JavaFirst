@@ -1,7 +1,5 @@
 package Model;
 
-import Model.Priory;
-
 import java.util.ArrayList;
 
 /**
@@ -10,15 +8,15 @@ import java.util.ArrayList;
 
 public class Settings {
    public static final int MAX_PRIORY=1000;
-  static  public ArrayList<Priory> priories=new ArrayList<Priory>();
+  static  public ArrayList<Operation> priories=new ArrayList<Operation>();
     static{
-        priories.add(new Priory("(",0,")"));
-        priories.add(new Priory("+",1,"+"));
-        priories.add(new Priory("-",1,"-"));
-        priories.add(new Priory("*",2,"*"));
-        priories.add(new Priory("/",2,"/"));
-        priories.add(new Priory("^",2,"^"));
-        priories.add(new Priory(")",MAX_PRIORY,"+"));
+        priories.add(new Operation("(",0,")"));
+        priories.add(new Operation("+",1,"+"));
+        priories.add(new Operation("-",1,"-"));
+        priories.add(new Operation("*",2,"*"));
+        priories.add(new Operation("/",2,"/"));
+        priories.add(new Operation("^",2,"^"));
+        priories.add(new Operation(")",MAX_PRIORY,"+"));
 
     }
 }

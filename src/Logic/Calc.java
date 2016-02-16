@@ -1,89 +1,79 @@
 package Logic;
 
 import Logic.Parser;
+import Model.Data;
+import Model.Sequnce;
 
 /**
  * Created by CraZy_IVAN on 16.02.16.
  */
 public class Calc {
-    public double getAnswer(){
-        while(Parser.operations.size()!=0){
-            if(checkWeCanDoOperations()==false){
-                System.out.println("I can't do opperation");
-                throw new Error();
+    //todo in the fiture generic
+    public double getAnswer() {
+        for (Data data : Sequnce.mainSequence) {
+            if (data.isOperand()) {
+                Sequnce.tempValueStack.push(data.getValue());
+            } else {
+                if (checkWeCanDoOperations()) {
+                    Double op1 = Sequnce.tempValueStack.peek();
+                    Sequnce.tempValueStack.pop();
+                    Double op2 = Sequnce.tempValueStack.peek();
+                    Sequnce.tempValueStack.pop();
+                    doOperation(op1, op2, data.getOperation().getDefaulSing());
+                }
             }
-            String oper=Parser.operations.peek();
-            if(oper=="+"){
-                doAdd();
-            }
-            else if(oper=="-"){
-                doSub();
-            }
-            else if(oper=="*"){
-                doMul();
-            }
-            else if(oper=="/"){
-                doDiv();
-            }
-            else if(oper=="^"){
-                doPow();
-            }
-
-            Parser.operations.pop();
         }
-        return Parser.operands.peek();
+        return Sequnce.tempValueStack.peek();
     }
 
-    private boolean checkWeCanDoOperations(){
-        if(Parser.operands.size()<2){
-            return false;
+    private boolean checkWeCanDoOperations() {
+        if (Sequnce.tempValueStack.size() < 2) {
+            System.out.println("You input incorrect data");
+            throw new Error();
         }
         return true;
     }
-    //todo May be give method to operands ?
+
+
+    private void doOperation(Double op1, Double op2, String opp) {
+        opp = opp.intern();
+        if (opp == "+") {
+            doAdd(op1, op2);
+        } else if (opp == "-") {
+            doSub(op1, op2);
+        } else if (opp == "*") {
+            doMul(op1, op2);
+        } else if (opp == "/") {
+            doDiv(op1,op2);
+        }else if(opp=="^"){
+            doDiv(op1,op2);
+        }
+    }
+
     //todo  в методы добавить проверку возможна ли эта операция
     //+
-    private void doAdd(){
-        double op1=Parser.operands.peek();
-        Parser.operands.pop();
-        double op2=Parser.operands.peek();
-        Parser.operands.pop();
-        Parser.operands.push(op1+op2);
+    private void doAdd(Double op1, Double op2) {
+        Sequnce.tempValueStack.push(op1 + op2);
 
     }
 
     //-
-    private void doSub(){
-        double op1=Parser.operands.peek();
-        Parser.operands.pop();
-        double op2=Parser.operands.peek();
-        Parser.operands.pop();
-        Parser.operands.push(op1-op2);
+    private void doSub(Double op1, Double op2) {
+        Sequnce.tempValueStack.push(op1 - op2);
     }
 
     //*
-    private void doMul(){
-        double op1=Parser.operands.peek();
-        Parser.operands.pop();
-        double op2=Parser.operands.peek();
-        Parser.operands.pop();
-        Parser.operands.push(op1*op2);
+    private void doMul(Double op1, Double op2) {
+        Sequnce.tempValueStack.push(op1 * op2);
     }
+
     // /
-    private void doDiv(){
-        double op1=Parser.operands.peek();
-        Parser.operands.pop();
-        double op2=Parser.operands.peek();
-        Parser.operands.pop();
-        Parser.operands.push(op1/op2);
+    private void doDiv(Double op1, Double op2) {
+        Sequnce.tempValueStack.push(op1 / op2);
     }
 
     // ^
-    private void doPow(){
-        double op1=Parser.operands.peek();
-        Parser.operands.pop();
-        double op2=Parser.operands.peek();
-        Parser.operands.pop();
-        Parser.operands.push(Math.pow(op1,op2));
+    private void doPow(Double op1, Double op2) {
+        Sequnce.tempValueStack.push(Math.pow(op1, op2));
     }
 }
