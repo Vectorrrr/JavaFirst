@@ -59,7 +59,7 @@ public class Calc {
 
     //-
     private void doSub(Double op1, Double op2) {
-        Sequnce.tempValueStack.push(op1 - op2);
+        Sequnce.tempValueStack.push(op2 - op1);
     }
 
     //*
@@ -69,7 +69,7 @@ public class Calc {
 
     // /
     private void doDiv(Double op1, Double op2) {
-        Sequnce.tempValueStack.push(op1 / op2);
+        Sequnce.tempValueStack.push(op2 / op1);
     }
 
     // ^
