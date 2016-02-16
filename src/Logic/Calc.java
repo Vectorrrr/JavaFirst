@@ -46,7 +46,7 @@ public class Calc {
         } else if (opp == "/") {
             doDiv(op1,op2);
         }else if(opp=="^"){
-            doDiv(op1,op2);
+            doPow(op1,op2);
         }
     }
 
@@ -74,6 +74,6 @@ public class Calc {
 
     // ^
     private void doPow(Double op1, Double op2) {
-        Sequnce.tempValueStack.push(Math.pow(op1, op2));
+        Sequnce.tempValueStack.push(Math.pow(op2,op1));
     }
 }

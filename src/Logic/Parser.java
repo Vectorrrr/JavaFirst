@@ -21,6 +21,7 @@ public class Parser {
     //flase if incorrect String
     //true if correct
     public boolean createStacks(String s) {
+        clearStack();
         //show the last time we read Number
         boolean flagNumber = false;
 
@@ -118,11 +119,24 @@ public class Parser {
                     Sequnce.tempOperStack.push(new Operation("+", 1, "+"));
                     continue;
                 }
+                if (val == "-") {
+                    Sequnce.tempOperStack.push(new Operation("-", 1, "-"));
+                    continue;
+                }
+                if (val == "/") {
+                    Sequnce.tempOperStack.push(new Operation("/", 2, "/"));
+                    continue;
+                }
                 if (val == "*") {
-                    //todo переписать что бы находило в нашей последовательности?
                     Sequnce.tempOperStack.push(new Operation("*", 2, "*"));
                     continue;
                 }
+                if (val == "^") {
+
+                    Sequnce.tempOperStack.push(new Operation("^", 2, "^"));
+                    continue;
+                }
+
             }
 
 
