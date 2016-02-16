@@ -1,3 +1,7 @@
+package Model;
+
+import Model.Priory;
+
 import java.util.ArrayList;
 
 /**
@@ -13,7 +17,7 @@ public class Settings {
         priories.add(new Priory("-",1,"-"));
         priories.add(new Priory("*",2,"*"));
         priories.add(new Priory("/",2,"/"));
-        priories.add(new Priory("^",3,"^"));
+        priories.add(new Priory("^",2,"^"));
         priories.add(new Priory(")",MAX_PRIORY,"+"));
 
     }

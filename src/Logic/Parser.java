@@ -1,3 +1,6 @@
+package Logic;
+
+import Model.*;
 import java.util.Stack;
 
 /**
@@ -40,6 +43,7 @@ public class Parser {
 
             if (s.charAt(i) == ' ') {
                 if(flagNumber){
+                    powAfterDot = 0.1;
                     operands.push(tempVal);
                     flagNumber=false;
                     tempVal=0;
@@ -52,6 +56,7 @@ public class Parser {
             if (s.charAt(i) == '.') {
                 count = 0;
                 flagDot = true;
+                continue;
             }
 
             if (Character.isDigit(s.charAt(i))) {
@@ -72,6 +77,7 @@ public class Parser {
                     }
                 }
             } else {
+                powAfterDot = 0.1;
                 if(flagNumber){
                     operands.push(tempVal);
                     flagNumber=false;
@@ -80,7 +86,7 @@ public class Parser {
                 flagDot=false;
 
 
-                //todo maby one cycle
+                //todo may be1 one cycle
                 if (s.charAt(i) == ')') {
                     if (tempStackOper.size() == 0) {
                         return false;
@@ -99,35 +105,35 @@ public class Parser {
                     tempStackOper.push("(");
                 }
                 else if(s.charAt(i)=='+'){
-                    while (tempStackOper.size() > 0 && getPriority(tempStackOper.peek())<getPriority("+")) {
+                    while (tempStackOper.size() > 0 && tempStackOper.peek()!="(" && getPriority(tempStackOper.peek())<getPriority("+") ) {
                         operations.push(tempStackOper.peek());
                         tempStackOper.pop();
                     }
                     tempStackOper.push("+");
                 }
                 else if(s.charAt(i)=='-'){
-                    while (tempStackOper.size() > 0 && getPriority(tempStackOper.peek())<getPriority("-")) {
+                    while (tempStackOper.size() > 0 && getPriority(tempStackOper.peek())<=getPriority("-")) {
                         operations.push(tempStackOper.peek());
                         tempStackOper.pop();
                     }
                     tempStackOper.push("-");
                 }
                 else if(s.charAt(i)=='*'){
-                    while (tempStackOper.size() > 0 && getPriority(tempStackOper.peek())<getPriority("*")) {
+                    while (tempStackOper.size() > 0 && getPriority(tempStackOper.peek())<=getPriority("*")) {
                         operations.push(tempStackOper.peek());
                         tempStackOper.pop();
                     }
                     tempStackOper.push("*");
                 }
                 else if(s.charAt(i)=='/'){
-                    while (tempStackOper.size() > 0 && getPriority(tempStackOper.peek())<getPriority("/")) {
+                    while (tempStackOper.size() > 0 && getPriority(tempStackOper.peek())<=getPriority("/")) {
                         operations.push(tempStackOper.peek());
                         tempStackOper.pop();
                     }
                     tempStackOper.push("/");
                 }
                 else if(s.charAt(i)=='^'){
-                    while (tempStackOper.size() > 0 && getPriority(tempStackOper.peek())<getPriority("^")) {
+                    while (tempStackOper.size() > 0 && getPriority(tempStackOper.peek())<=getPriority("^")) {
                         operations.push(tempStackOper.peek());
                         tempStackOper.pop();
                     }
@@ -152,7 +158,7 @@ public class Parser {
     }
 
     private int getPriority(String oper) {
-        for (Priory t :Settings.priories){
+        for (Priory t : Settings.priories){
             if(t.getSign().equals(oper)){
                 return t.getPriory();
             }
@@ -161,7 +167,7 @@ public class Parser {
     }
 
     private String getSign(String oper){
-        for (Priory t :Settings.priories){
+        for (Priory t : Settings.priories){
             if(t.getSign().equals(oper)){
                 return t.getMathSing();
             }

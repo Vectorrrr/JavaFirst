@@ -1,3 +1,9 @@
+package Logic;
+
+import Logic.Parser;
+import View.Receiver;
+import View.*;
+
 /**
  * Created by CraZy_IVAN on 15.02.16.
  */

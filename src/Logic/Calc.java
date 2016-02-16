@@ -1,3 +1,7 @@
+package Logic;
+
+import Logic.Parser;
+
 /**
  * Created by CraZy_IVAN on 16.02.16.
  */
@@ -36,7 +40,7 @@ public class Calc {
         }
         return true;
     }
-    //todo Maybe give method to operands ?
+    //todo May be give method to operands ?
     //todo  в методы добавить проверку возможна ли эта операция
     //+
     private void doAdd(){
