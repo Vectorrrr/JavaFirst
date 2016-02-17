@@ -1,5 +1,6 @@
 package model;
 
+import model.operation.OverloadOperation;
 import model.operation.Sing;
 
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class Sequnce {
     //temp value Stack
     public static Stack<Double> tempValueStack = new Stack<Double>();
 
+    //todo where save overloading operation if save in Settings I violate singl responsibility
+    public static ArrayList<OverloadOperation> overloadOperations=new ArrayList<OverloadOperation>();
 
 
 

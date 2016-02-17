@@ -53,4 +53,7 @@ public  class Controller {
         }
 
     }
+    private void settingsMenu(){
+
+    }
 }

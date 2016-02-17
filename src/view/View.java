@@ -19,14 +19,12 @@ public class View {
         //todo  If necessary or I can type System.out....
         consoleWriter.write("If you whant calc input 1");
         consoleWriter.write("If you whant see the settings inpute 2");
-        consoleWriter.write("If you whant change the settings inpute 3");
         consoleWriter.write("If you whant exit input 0");
 
     }
 
     public  void printSettings() {
         consoleWriter.write("\n\n This operration not available\n\n");
-
     }
 
     public  void printChangeSettingsMenu() {
