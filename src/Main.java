@@ -1,4 +1,4 @@
-import Logic.Controller;
+import logic.Controller;
 
 /**
  * Created by CraZy_IVAN on 15.02.16.

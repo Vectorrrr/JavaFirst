@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.util.Scanner;
 
@@ -17,7 +17,9 @@ public class Receiver {
     // todo how i can show human that he doesn't right
     public String getString() {
         if (sc.hasNextLine()) {
-            return sc.nextLine();
+            String answer=sc.nextLine();
+            answer=sc.nextLine();
+            return answer;
         } else {
             System.out.println("You don't input line");
             return new String("");
@@ -25,12 +27,10 @@ public class Receiver {
     }
 
     public int getInt() throws NumberFormatException {
-        String temp=sc.next();
-
-        try{
-          return Integer.parseInt(temp);
-        }
-        catch(NumberFormatException e){
+        String temp = sc.next();
+        try {
+            return Integer.parseInt(temp);
+        } catch (NumberFormatException e) {
             throw new NumberFormatException();
         }
     }

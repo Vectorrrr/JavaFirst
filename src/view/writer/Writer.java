@@ -1,4 +1,4 @@
-package View;
+package view.writer;
 
 /**
  * Created by CraZy_IVAN on 15.02.16.
@@ -11,7 +11,6 @@ public class Writer {
             System.out.println(x);
         }
     }
-
 
 
 }
