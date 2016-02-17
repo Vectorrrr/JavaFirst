@@ -24,13 +24,13 @@ public class View {
     }
 
     public  void printSettings() {
-        consoleWriter.write("\n\n This operration not available\n\n");
-    }
-
-    public  void printChangeSettingsMenu() {
-        consoleWriter.write("\n\n This operration not available\n\n");
+        consoleWriter.write("If you want see the all overloading operation type 1");
+        consoleWriter.write("If you want overloading operation type 2 ");
+        consoleWriter.write("If you want return to main menu type 0");
 
     }
+
+
 
     public  void Buy() {
         consoleWriter.write("Good luck, bro!)");
