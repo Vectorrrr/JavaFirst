@@ -7,6 +7,7 @@ import view.writer.ConsoleWriter;
 /**
  * Created by CraZy_IVAN on 15.02.16.
  */
+
 public  class Controller {
     //todo Controller need writer?
     private ConsoleReader consoleReader;
@@ -14,7 +15,6 @@ public  class Controller {
     private ConsoleWriter  consoleWriter;
     private Calc calc;
 
-    //todo maby better write  private Parser  parser=new Parser();
     public Controller() {
         consoleReader = new ConsoleReader();
         calc = new Calc();
@@ -55,7 +55,8 @@ public  class Controller {
         view.printSettings();
         String ans= consoleReader.getString();
         while(!"0".equals(ans)){
-            
+
         }
     }
+
 }
