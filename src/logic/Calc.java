@@ -42,7 +42,7 @@ public class Calc {
 
 
     public double getAnswer(String s) {
-        if (!createStacks(s)) {
+        if (!createStacks(Settings.normalaizeString(s))) {
             throw new IllegalArgumentException("\n You input incorrect sequence!!!");
         }
         for (Data data : mainSequence) {

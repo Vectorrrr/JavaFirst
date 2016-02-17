@@ -1,5 +1,7 @@
 package view;
 //todo import all classes or one by one
+import model.Settings;
+import model.operation.BasicOperation;
 import view.writer.*;
 
 
@@ -26,11 +28,23 @@ public class View {
     public  void printSettings() {
         consoleWriter.write("If you want see the all overloading operation type 1");
         consoleWriter.write("If you want overloading operation type 2 ");
+        consoleWriter.write("If you want delete overloading operation type 3");
         consoleWriter.write("If you want return to main menu type 0");
-
     }
 
+    public void printAllOverOper(){
+        consoleWriter.write(Settings.getAllOverloadOper());
+    }
 
+    public void printBaseOper(){
+        //todo may be one const?
+        StringBuffer sb=new StringBuffer();
+        for(BasicOperation bas:BasicOperation.values()){
+            sb.append(bas.getSing()).append("\n");
+
+        }
+        consoleWriter.write(sb.toString());
+    }
 
     public  void Buy() {
         consoleWriter.write("Good luck, bro!)");

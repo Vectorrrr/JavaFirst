@@ -7,9 +7,9 @@ public class OverloadOperation {
     private String overloadSing;
     private String defualtSing;
 
-    public OverloadOperation(String overSing, BasicOperation defSing){
+    public OverloadOperation(String overSing, String defSing){
         overloadSing=overSing;
-        defualtSing=defSing.getSing();
+        defualtSing=defSing;
     }
     public String getOverloadSing(){
         return this.overloadSing;

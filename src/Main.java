@@ -7,7 +7,9 @@ import logic.Controller;
 public class Main {
 
     public static void main(String[] args) {
-        Controller contrl=new Controller();
-        contrl.run();
+       Controller contrl=new Controller();
+       contrl.run();
+
+
     }
 }

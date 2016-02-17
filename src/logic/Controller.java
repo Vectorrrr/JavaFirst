@@ -1,5 +1,6 @@
 package logic;
 
+import model.Settings;
 import view.reader.ConsoleReader;
 import view.*;
 import view.writer.ConsoleWriter;
@@ -42,10 +43,10 @@ public  class Controller {
                 consoleWriter.write("Your answer: " + calc.getAnswer(consoleReader.getString()) + "\n");
 
             } else if ("2".equals(userAns)) {
-                view.printSettings();
+                settingsMenu();
+
             } else {
                 view.incorrectInput();
-                continue;
             }
             view.printMainMenu();
         }
@@ -55,8 +56,36 @@ public  class Controller {
         view.printSettings();
         String ans= consoleReader.getString();
         while(!"0".equals(ans)){
-
+            switch (ans){
+                case "1":
+                    view.printAllOverOper();
+                    break;
+                case "2":
+                    overOper();
+                    break;
+                case"3":
+                    removeOper();
+                    break;
+                default:
+                    consoleWriter.write("You input incorrect sing! Please input number in range 0 to 2");
+            }
+            view.printSettings();
+            ans= consoleReader.getString();
         }
+    }
+    private void overOper(){
+        consoleWriter.write("Input you sing");
+        String overOper=consoleReader.getString();
+        consoleWriter.write("Input base operation one of this");
+        view.printBaseOper();
+        String baseOper=consoleReader.getString();
+        if(!Settings.addOverloadOperation(overOper,baseOper)){
+            consoleWriter.write("You input incorrect operation");
+        }
+    }
+    private void removeOper(){
+        consoleWriter.write("Input you over Sing");
+        Settings.removeOperation(consoleReader.getString());
     }
 
 }
