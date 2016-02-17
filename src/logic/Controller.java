@@ -1,22 +1,22 @@
 package logic;
 
-import view.Receiver;
+import view.reader.ConsoleReader;
 import view.*;
 import view.writer.ConsoleWriter;
 
 /**
  * Created by CraZy_IVAN on 15.02.16.
  */
-public class Controller {
+public  class Controller {
     //todo Controller need writer?
-    private Receiver receiver;
+    private ConsoleReader receiver;
     private View view;
     private ConsoleWriter  consoleWriter;
     private Calc calc;
 
     //todo maby better write  private Parser  parser=new Parser();
     public Controller() {
-        receiver = new Receiver();
+        receiver = new ConsoleReader();
         calc = new Calc();
         view =new View();
         consoleWriter=new  ConsoleWriter();
@@ -24,26 +24,26 @@ public class Controller {
 
     public void run() {
 
-        int userAns;
+        String userAns;
         view.printMainMenu();
         while (true) {
 
             try {
-                userAns = receiver.getInt();
+                userAns = receiver.getString();
             } catch (NumberFormatException e) {
                 consoleWriter.write("You input incorrect value\n Try again\n");
                 continue;
             }
-            if (userAns == 0) {
+            if ("0".equals(userAns)) {
                 view.Buy();
                 break;
-            } else if (userAns == 1) {
+            } else if ("1".equals(userAns)) {
                 consoleWriter.write("Input your example\n");
                 consoleWriter.write("Your answer: " + calc.getAnswer(receiver.getString()) + "\n");
 
-            } else if (userAns == 2) {
+            } else if ("2".equals(userAns)) {
                 view.printSettings();
-            } else if (userAns == 3) {
+            } else if ("3".equals(userAns)) {
                 view.printChangeSettingsMenu();
             } else {
                 view.incorrectInput();
