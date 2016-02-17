@@ -12,12 +12,12 @@ public class Parser {
 
     private Settings settings;
     //show the last time we read Number
-    private  boolean flagNumber = false;
+    private boolean flagNumber = false;
 
     //show we read dot,or not
     private boolean flagDot = false;
     //show we read operation last or not
-     private boolean flagOper = false;
+    private boolean flagOper = false;
 
     private double tempValue = 0;
 
@@ -40,7 +40,7 @@ public class Parser {
             String val = new Character(s.charAt(i)).toString();
 
             if (" ".equals(val)) {
-                 continue;
+                continue;
             }
             if (".".equals(val)) {
                 flagDot = true;
@@ -67,19 +67,17 @@ public class Parser {
                 if (flagNumber) {
                     resetFlagNumber();
                 }
-                if(isBracket(val)){
+                if (isBracket(val)) {
                     addBracket(val);
                     continue;
-                }
-                else if (!isOperation(val)) {
+                } else if (!isOperation(val)) {
                     System.out.println("You input incorrect operation!!!");
                     return false;
                 }
                 addOperation(val);
             }
-
-
         }
+
         if (flagNumber) {
             resetFlagNumber();
         }
@@ -96,7 +94,7 @@ public class Parser {
     }
 
 
-    private void resetFlagNumber(){
+    private void resetFlagNumber() {
         flagNumber = false;
         Sequnce.mainSequence.add(new Data(tempValue));
         flagDot = false;
@@ -107,7 +105,7 @@ public class Parser {
     }
 
     private void addOperation(String val) {
-        BasicOperation oper=getBasicOperation(val);
+        BasicOperation oper = getBasicOperation(val);
         while (Sequnce.tempSingStack.size() > 0 &&
                 Sequnce.tempSingStack.peek().getPriory() >= oper.getPriory() &&
                 Sequnce.tempSingStack.peek().getSing() != "(") {
@@ -118,16 +116,16 @@ public class Parser {
         Sequnce.tempSingStack.push(oper);
 
     }
-    private void addBracket(String val){
+
+    private void addBracket(String val) {
         if ("(".equals(val)) {
             //todo May be this is not right?
             Sequnce.tempSingStack.push(Bracket.OPENBRACKET);
 
-        }
-        else if ( ")".equals(val)) {
+        } else if (")".equals(val)) {
 
             while (Sequnce.tempSingStack.size() != 0 &&
-                    Sequnce.tempSingStack.peek().getSing() !="(") {
+                    Sequnce.tempSingStack.peek().getSing() != "(") {
                 Sequnce.mainSequence.add(new Data(Sequnce.tempSingStack.peek()));
                 Sequnce.tempSingStack.pop();
             }
@@ -142,19 +140,20 @@ public class Parser {
         }
 
     }
+
     //check is operation or not
     private boolean isOperation(String oper) {
         for (BasicOperation data : BasicOperation.values()) {
-            if(data.getSing().equals(oper)){
+            if (data.getSing().equals(oper)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean isBracket(String oper){
-        for(Bracket b:Bracket.values()){
-            if(b.getSing().equals(oper)){
+    private boolean isBracket(String oper) {
+        for (Bracket b : Bracket.values()) {
+            if (b.getSing().equals(oper)) {
                 return true;
             }
         }
@@ -164,8 +163,8 @@ public class Parser {
 
     //return defualtSing or string empty
     private BasicOperation getBasicOperation(String val) {
-        for(BasicOperation b: BasicOperation.values()){
-            if(b.getSing().equals(val)){
+        for (BasicOperation b : BasicOperation.values()) {
+            if (b.getSing().equals(val)) {
                 return b;
             }
         }

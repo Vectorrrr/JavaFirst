@@ -2,50 +2,54 @@ package logic;
 
 import view.Receiver;
 import view.*;
-import view.writer.Writer;
+import view.writer.ConsoleWriter;
 
 /**
  * Created by CraZy_IVAN on 15.02.16.
  */
 public class Controller {
+    //todo Controller need writer?
     private Receiver receiver;
-    private Parser parser;
+    private View view;
+    private ConsoleWriter  consoleWriter;
     private Calc calc;
 
     //todo maby better write  private Parser  parser=new Parser();
     public Controller() {
         receiver = new Receiver();
-             calc = new Calc();
+        calc = new Calc();
+        view =new View();
+        consoleWriter=new  ConsoleWriter();
     }
 
     public void run() {
 
         int userAns;
-        View.printMainMenu();
+        view.printMainMenu();
         while (true) {
 
             try {
                 userAns = receiver.getInt();
             } catch (NumberFormatException e) {
-                Writer.writeInConsole("You input incorrect value\n Try again\n");
+                consoleWriter.write("You input incorrect value\n Try again\n");
                 continue;
             }
             if (userAns == 0) {
-                View.Buy();
+                view.Buy();
                 break;
             } else if (userAns == 1) {
-                Writer.writeInConsole("Input your example\n");
-                Writer.writeInConsole("Your answer: " + calc.getAnswer(receiver.getString()) + "\n");
+                consoleWriter.write("Input your example\n");
+                consoleWriter.write("Your answer: " + calc.getAnswer(receiver.getString()) + "\n");
 
             } else if (userAns == 2) {
-                View.printSettings();
+                view.printSettings();
             } else if (userAns == 3) {
-                View.printChangeSettingsMenu();
+                view.printChangeSettingsMenu();
             } else {
-                View.incorrectInput();
+                view.incorrectInput();
                 continue;
             }
-            View.printMainMenu();
+            view.printMainMenu();
         }
 
     }

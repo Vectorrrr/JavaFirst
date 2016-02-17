@@ -9,9 +9,10 @@ import model.Sequnce;
  */
 public class Calc {
     //todo in the fiture generic
-    Parser parser=new Parser();
+    Parser parser = new Parser();
+
     public double getAnswer(String s) {
-        if(!parser.createStacks(s)){
+        if (!parser.createStacks(s)) {
             throw new IllegalArgumentException("\n You input incorrect sequence!!!");
         }
         for (Data data : Sequnce.mainSequence) {
@@ -39,13 +40,12 @@ public class Calc {
 
 
     private void doOperation(Double op1, Double op2, String sing) {
-      for(BasicOperation b:BasicOperation.values()){
-          if(b.getSing().equals(sing)){
-              Sequnce.tempValueStack.push(b.apply(op1,op2));
-          }
-      }
+        for (BasicOperation b : BasicOperation.values()) {
+            if (b.getSing().equals(sing)) {
+                Sequnce.tempValueStack.push(b.apply(op1, op2));
+            }
+        }
     }
-
 
 
 }
