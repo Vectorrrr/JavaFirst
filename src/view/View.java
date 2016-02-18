@@ -13,8 +13,8 @@ public class View {
     private ConsoleWriter consoleWriter = new ConsoleWriter();
     private Writer answerWriter;
 
-    public View(){
-        answerWriter=new ConsoleWriter();
+    public View() {
+        answerWriter = new ConsoleWriter();
     }
 
     public void printMainMenu() {
@@ -25,32 +25,32 @@ public class View {
 
     }
 
-    public  void printSettings() {
+    public void printSettings() {
         consoleWriter.write("If you want see the all overloading operation type 1");
         consoleWriter.write("If you want overloading operation type 2 ");
         consoleWriter.write("If you want delete overloading operation type 3");
         consoleWriter.write("If you want return to main menu type 0");
     }
 
-    public void printAllOverOper(){
+    public void printAllOverOper() {
         consoleWriter.write(Settings.getAllOverloadOper());
     }
 
-    public void printBaseOper(){
+    public void printBaseOper() {
         //todo may be one const?
-        StringBuffer sb=new StringBuffer();
-        for(BasicOperation bas:BasicOperation.values()){
+        StringBuffer sb = new StringBuffer();
+        for (BasicOperation bas : BasicOperation.values()) {
             sb.append(bas.getSing()).append("\n");
 
         }
         consoleWriter.write(sb.toString());
     }
 
-    public  void Buy() {
+    public void Buy() {
         consoleWriter.write("Good luck, bro!)");
     }
 
-    public  void incorrectInput() {
+    public void incorrectInput() {
         consoleWriter.write("You input incorrect value. \n" +
                 "Type in the range from 0 to 3");
 

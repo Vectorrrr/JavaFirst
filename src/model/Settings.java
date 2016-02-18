@@ -22,11 +22,11 @@ public class Settings {
     private static List<OverloadOperation> overloadOperations = new ArrayList<OverloadOperation>();
 
     public static boolean addOverloadOperation(String overOper, String baseOper) {
-        if(overOper==null){
+        if (overOper == null) {
             return false;
         }
-        for(Integer i=0;i<10;++i){
-            if(overOper.contains(i.toString())){
+        for (Integer i = 0; i < 10; ++i) {
+            if (overOper.contains(i.toString())) {
                 return false;
             }
         }
@@ -39,7 +39,7 @@ public class Settings {
         }
         for (OverloadOperation oper : overloadOperations) {
             if (oper.getOverloadSing().contains(overOper) ||
-                overOper.contains(oper.getOverloadSing())) {
+                    overOper.contains(oper.getOverloadSing())) {
                 return false;
             }
 
@@ -54,13 +54,13 @@ public class Settings {
                 return false;
             }
         }
-        for(Function f: BaseBinaryFunction.values()){
-            if(overOper.contains(f.getFunction())){
+        for (Function f : BaseBinaryFunction.values()) {
+            if (overOper.contains(f.getFunction())) {
                 return false;
             }
         }
-        for(Function f: BaseUnaryFunction.values()){
-            if(overOper.contains(f.getFunction())){
+        for (Function f : BaseUnaryFunction.values()) {
+            if (overOper.contains(f.getFunction())) {
                 return false;
             }
         }

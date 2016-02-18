@@ -29,7 +29,7 @@ public enum BasicOperation  implements Operation {
         }
     },
     //todo if change sequence x and y I'll can check in class Calc
-    POW("^", 2) {
+    POW("^", 3) {
         @Override
         public double apply(double x, double y) {
             return Math.pow(y, x);

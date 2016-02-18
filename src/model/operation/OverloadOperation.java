@@ -7,14 +7,16 @@ public class OverloadOperation {
     private String overloadSing;
     private String defualtSing;
 
-    public OverloadOperation(String overSing, String defSing){
-        overloadSing=overSing;
-        defualtSing=defSing;
+    public OverloadOperation(String overSing, String defSing) {
+        overloadSing = overSing;
+        defualtSing = defSing;
     }
-    public String getOverloadSing(){
+
+    public String getOverloadSing() {
         return this.overloadSing;
     }
-    public String getDefualtSing(){
+
+    public String getDefualtSing() {
         return this.defualtSing;
     }
 

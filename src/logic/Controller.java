@@ -13,14 +13,14 @@ public  class Controller {
     //todo Controller need writer?
     private ConsoleReader consoleReader;
     private View view;
-    private ConsoleWriter  consoleWriter;
+    private ConsoleWriter consoleWriter;
     private CalculationService calc;
 
     public Controller() {
         consoleReader = new ConsoleReader();
         calc = new CalculationService();
-        view =new View();
-        consoleWriter=new  ConsoleWriter();
+        view = new View();
+        consoleWriter = new ConsoleWriter();
     }
 
     public void run() {
@@ -52,38 +52,41 @@ public  class Controller {
         }
 
     }
-    private void settingsMenu(){
+
+    private void settingsMenu() {
         view.printSettings();
-        String ans= consoleReader.getString();
-        while(!"0".equals(ans)){
-            switch (ans){
+        String ans = consoleReader.getString();
+        while (!"0".equals(ans)) {
+            switch (ans) {
                 case "1":
                     view.printAllOverOper();
                     break;
                 case "2":
                     overOper();
                     break;
-                case"3":
+                case "3":
                     removeOper();
                     break;
                 default:
                     consoleWriter.write("You input incorrect sing! Please input number in range 0 to 2");
             }
             view.printSettings();
-            ans= consoleReader.getString();
+            ans = consoleReader.getString();
         }
     }
-    private void overOper(){
+
+    private void overOper() {
         consoleWriter.write("Input you sing");
-        String overOper=consoleReader.getString();
+        String overOper = consoleReader.getString();
         consoleWriter.write("Input base operation one of this");
         view.printBaseOper();
-        String baseOper=consoleReader.getString();
-        if(!Settings.addOverloadOperation(overOper,baseOper)){
+        String baseOper = consoleReader.getString();
+        if (!Settings.addOverloadOperation(overOper, baseOper)) {
             consoleWriter.write("You input incorrect operation");
         }
     }
-    private void removeOper(){
+
+    private void removeOper() {
         consoleWriter.write("Input you over Sing");
         Settings.removeOperation(consoleReader.getString());
     }

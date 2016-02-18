@@ -19,10 +19,10 @@ public class CalculationService {
 
     private static List<Data> mainSequence = new ArrayList<Data>();
 
-    //temp stack for operation
+    //temp deque for operation
     private static Deque<Sing> temSingDeque = new ArrayDeque<>();
 
-    //temp value Stack
+    //temp value deque
     private static Deque<Double> tempValueDeque = new ArrayDeque<>();
 
     //show the last time we read Number
@@ -43,7 +43,7 @@ public class CalculationService {
     private String threadString;
     private int stringPosition = 0;
 
-    //todo calculate
+
     public double calculate(String s) {
         stringPosition = 0;
         threadString = s;
@@ -75,7 +75,6 @@ public class CalculationService {
         return true;
     }
 
-
     private void doOperation(Double op1, Double op2, String sing) {
         for (BasicOperation b : BasicOperation.values()) {
             if (b.getSing().equals(sing)) {
@@ -84,10 +83,9 @@ public class CalculationService {
         }
     }
 
-
     //flase if incorrect String
     //true if correct
-    public boolean createStacks() {
+    private boolean createStacks() {
         clearStack();
         for (; stringPosition < threadString.length(); ++stringPosition) {
 
@@ -184,8 +182,8 @@ public class CalculationService {
                 return;
             }
         }
-        for(BaseUnaryFunction unarFun: BaseUnaryFunction.values()){
-            if(unarFun.getFunction().equals(oper)){
+        for (BaseUnaryFunction unarFun : BaseUnaryFunction.values()) {
+            if (unarFun.getFunction().equals(oper)) {
                 doUnaryOperation(unarFun);
                 return;
             }
@@ -229,14 +227,15 @@ public class CalculationService {
 
     }
 
-    private void findFirstOpenBrakets(){
+    private void findFirstOpenBrakets() {
         while (threadString.charAt(stringPosition++) != '(' && threadString.length() > stringPosition) {
         }
         if (threadString.length() <= stringPosition) {
             throw new IllegalStateException("You input incorrect opperation");
         }
     }
-    private void findFirstClosedBrakets(){
+
+    private void findFirstClosedBrakets() {
         while (true) {
             if (threadString.length() == stringPosition) {
                 throw new IllegalStateException("You input incorrect opperation");
@@ -248,6 +247,7 @@ public class CalculationService {
             stringPosition++;
         }
     }
+
     private void findNextNumber() {
         while (!Character.isDigit(threadString.charAt(stringPosition)) &&
                 threadString.length() > stringPosition) {

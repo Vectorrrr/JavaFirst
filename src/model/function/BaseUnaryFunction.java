@@ -3,15 +3,15 @@ package model.function;
 /**
  * Created by igladush on 18.02.16.
  */
-public enum BaseUnaryFunction  implements Function{
-    INC("inc"){
+public enum BaseUnaryFunction  implements Function {
+    INC("inc") {
         @Override
         public double apply(double x) {
             return ++x;
         }
     },
-    DEC("dec"){
-        public double apply(double x){
+    DEC("dec") {
+        public double apply(double x) {
             return --x;
         }
     };
@@ -19,7 +19,7 @@ public enum BaseUnaryFunction  implements Function{
     private String function;
 
     BaseUnaryFunction(String function) {
-        this.function=function;
+        this.function = function;
     }
 
     public String getFunction() {

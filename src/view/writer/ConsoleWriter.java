@@ -6,11 +6,9 @@ package view.writer;
 
 public class ConsoleWriter implements Writer {
 
-    public  void write(String... s) {
+    public void write(String... s) {
         for (String x : s) {
             System.out.println(x);
         }
     }
-
-
 }

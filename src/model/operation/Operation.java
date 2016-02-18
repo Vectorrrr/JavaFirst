@@ -7,5 +7,5 @@ package model.operation;
     //todo May be all interface in other packet
     //todo think about API!!!
 public interface Operation extends Sing {
-     double apply(double x,double y);
+     double apply(double x, double y);
 }
