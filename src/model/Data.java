@@ -17,7 +17,7 @@ public class Data {
         isOperand = false;
     }
 
-    public Data(Double value) {
+    public Data(Double  value) {
         isOperand = true;
         this.value = value;
     }

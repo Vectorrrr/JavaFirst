@@ -14,11 +14,13 @@ public class ConsoleReader implements Reader {
 
 
     public String getString() {
-        if (sc.hasNextLine()) {
+
             return sc.nextLine();
-        } else {
-            System.out.println("You don't input line");
-            return new String("");
-        }
+
+    }
+
+    @Override
+    public boolean canRead() {
+        return sc.hasNext();
     }
 }

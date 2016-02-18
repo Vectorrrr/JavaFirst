@@ -19,12 +19,15 @@ public class View {
 
     public void printMainMenu() {
         //todo  If necessary or I can type System.out....
-        consoleWriter.write("If you whant calc input 1");
-        consoleWriter.write("If you whant see the settings inpute 2");
-        consoleWriter.write("If you whant exit input 0");
+        consoleWriter.write("If you want calc input 1");
+        consoleWriter.write("If you want see the settings inpute 2");
+        consoleWriter.write("If you want exit input 0");
 
     }
-
+    public void printFileMenu(){
+        consoleWriter.write("If you want calc next example input 1");
+        consoleWriter.write("If you want exit input 0");
+    }
     public void printSettings() {
         consoleWriter.write("If you want see the all overloading operation type 1");
         consoleWriter.write("If you want overloading operation type 2 ");
@@ -32,6 +35,10 @@ public class View {
         consoleWriter.write("If you want return to main menu type 0");
     }
 
+    public void printSettingsRead(){
+        consoleWriter.write("If you want read from console type 1");
+        consoleWriter.write("If you want read from file type 2");
+    }
     public void printAllOverOper() {
         consoleWriter.write(Settings.getAllOverloadOper());
     }
