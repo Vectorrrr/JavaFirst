@@ -1,5 +1,8 @@
 package model;
 
+import model.function.BaseBinaryFunction;
+import model.function.BaseUnaryFunction;
+import model.function.Function;
 import model.operation.BasicOperation;
 import model.operation.Bracket;
 import model.operation.OverloadOperation;
@@ -19,21 +22,27 @@ public class Settings {
     private static List<OverloadOperation> overloadOperations = new ArrayList<OverloadOperation>();
 
     public static boolean addOverloadOperation(String overOper, String baseOper) {
-
+        if(overOper==null){
+            return false;
+        }
+        for(Integer i=0;i<10;++i){
+            if(overOper.contains(i.toString())){
+                return false;
+            }
+        }
         if (overOper.contains("$") ||
                 overOper.contains(" ") ||
                 overOper.contains(".") ||
-                overOper.contains("?")) {
+                overOper.contains("?") ||
+                overOper.contains("*")) {
             return false;
         }
         for (OverloadOperation oper : overloadOperations) {
-            if (oper.getOverloadSing().equals(overOper) &&
-                    !oper.getDefualtSing().equals(baseOper)) {
+            if (oper.getOverloadSing().contains(overOper) ||
+                overOper.contains(oper.getOverloadSing())) {
                 return false;
             }
-            if (overOper.contains(oper.getOverloadSing())) {
-                return false;
-            }
+
         }
         for (BasicOperation oper : BasicOperation.values()) {
             if (overOper.contains(oper.getSing())) {
@@ -42,6 +51,16 @@ public class Settings {
         }
         for (Bracket bracket : Bracket.values()) {
             if (overOper.contains(bracket.getSing())) {
+                return false;
+            }
+        }
+        for(Function f: BaseBinaryFunction.values()){
+            if(overOper.contains(f.getFunction())){
+                return false;
+            }
+        }
+        for(Function f: BaseUnaryFunction.values()){
+            if(overOper.contains(f.getFunction())){
                 return false;
             }
         }
