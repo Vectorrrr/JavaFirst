@@ -5,6 +5,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.IllegalFormatException;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
@@ -58,6 +60,23 @@ public class Tester {
         assertEquals(38, calSer.calculate("(MuL(12 3)+DIV(18/6) + ((inc(15.5)/dec(17.5))^5))-SuM(1 1)"), ACCURACY);
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void ExceptionTest(){
+        calSer.calculate("1.2222222");
+        calSer.calculate("(121.");
+        calSer.calculate("2342 +22----22");
+        calSer.calculate("( (222+ 22)");
+        calSer.calculate("13-234.43)");
+        calSer.calculate("1234567890987654321+2");
+        calSer.calculate("(divv(17+2))");
+        calSer.calculate("113");
+        calSer.calculate("asd-123");
+        calSer.calculate("(-(1-2))");
+        calSer.calculate("15-12-4-");
+        calSer.calculate("27^div(2 2)");
+
+
+    }
 
     @After
     public void tearDown() {
