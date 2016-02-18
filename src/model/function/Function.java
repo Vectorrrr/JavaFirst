@@ -5,5 +5,5 @@ package model.function;
  */
 public interface Function {
     String getFunction();
-    double apply(double x,double y);
+
 }

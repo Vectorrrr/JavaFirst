@@ -3,6 +3,7 @@ package logic;
 import model.Data;
 import model.Settings;
 import model.function.BaseBinaryFunction;
+import model.function.BaseUnaryFunction;
 import model.function.Function;
 import model.operation.BasicOperation;
 import model.operation.Bracket;
@@ -177,23 +178,39 @@ public class CalculationService {
             throw new IllegalStateException("You input incorrect string!!!");
         }
         String oper = threadString.substring(stringPosition, stringPosition + 3).toLowerCase();
-        for (Function basFun : BaseBinaryFunction.values()) {
+        for (BaseBinaryFunction basFun : BaseBinaryFunction.values()) {
             if (basFun.getFunction().equals(oper)) {
                 doBinaryOperation(basFun);
+                return;
+            }
+        }
+        for(BaseUnaryFunction unarFun: BaseUnaryFunction.values()){
+            if(unarFun.getFunction().equals(oper)){
+                doUnaryOperation(unarFun);
                 return;
             }
         }
         throw new IllegalStateException("You input incorrect operation!!!");
     }
 
-    private void doBinaryOperation(Function basFun) {
+    private void doUnaryOperation(BaseUnaryFunction fun) {
+        stringPosition += 3;
+        findFirstOpenBrakets();
+        findNextNumber();
+        getNextNumber();
+        double x = tempValue;
+        resetFlagNumber();
+        stringPosition++;
+        tempValue = fun.apply(x);
+        mainSequence.add(new Data(tempValue));
+
+        findFirstClosedBrakets();
+    }
+
+    private void doBinaryOperation(BaseBinaryFunction basFun) {
         stringPosition += 3;
 
-        while (threadString.charAt(stringPosition++) != '(' && threadString.length() > stringPosition) {
-        }
-        if (threadString.length() <= stringPosition) {
-            throw new IllegalStateException("You input incorrect opperation");
-        }
+        findFirstOpenBrakets();
         findNextNumber();
         getNextNumber();
         double x = tempValue;
@@ -208,18 +225,29 @@ public class CalculationService {
         mainSequence.add(new Data(tempValue));
         resetFlagNumber();
 
-        while (true) {
-            if (threadString.charAt(stringPosition) == ')') {
-              return;
-            }
-            if (threadString.length() == stringPosition) {
-                throw new IllegalStateException("You input incorrect opperation");
-            }
-            stringPosition++;
-        }
+        findFirstClosedBrakets();
 
     }
 
+    private void findFirstOpenBrakets(){
+        while (threadString.charAt(stringPosition++) != '(' && threadString.length() > stringPosition) {
+        }
+        if (threadString.length() <= stringPosition) {
+            throw new IllegalStateException("You input incorrect opperation");
+        }
+    }
+    private void findFirstClosedBrakets(){
+        while (true) {
+            if (threadString.length() == stringPosition) {
+                throw new IllegalStateException("You input incorrect opperation");
+            }
+            if (threadString.charAt(stringPosition) == ')') {
+                return;
+            }
+
+            stringPosition++;
+        }
+    }
     private void findNextNumber() {
         while (!Character.isDigit(threadString.charAt(stringPosition)) &&
                 threadString.length() > stringPosition) {
