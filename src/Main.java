@@ -14,9 +14,8 @@ public class Main {
 
 
 
-
-     Controller contrl=new Controller();
-     contrl.run();
+        Controller contrl = new Controller();
+        contrl.run();
 
     }
 }

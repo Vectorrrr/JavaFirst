@@ -14,11 +14,11 @@ public  class Controller {
     private ConsoleReader consoleReader;
     private View view;
     private ConsoleWriter  consoleWriter;
-    private Calc calc;
+    private CalculationService calc;
 
     public Controller() {
         consoleReader = new ConsoleReader();
-        calc = new Calc();
+        calc = new CalculationService();
         view =new View();
         consoleWriter=new  ConsoleWriter();
     }
@@ -40,7 +40,7 @@ public  class Controller {
                 break;
             } else if ("1".equals(userAns)) {
                 consoleWriter.write("Input your example\n");
-                consoleWriter.write("Your answer: " + calc.getAnswer(consoleReader.getString()) + "\n");
+                consoleWriter.write("Your answer: " + calc.calculate(consoleReader.getString()) + "\n");
 
             } else if ("2".equals(userAns)) {
                 settingsMenu();
