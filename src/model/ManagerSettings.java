@@ -14,7 +14,7 @@ import java.util.List;
  * Created by CraZy_IVAN on 15.02.16.
  */
 //todo it's only for single thread
-public class Settings {
+public class ManagerSettings {
     public static final int MAX_LENGTH_AFTER_DOT = 5;
     public static final int MAX_SING = 18;
     public static final int MAX_PRIORY = 1000;

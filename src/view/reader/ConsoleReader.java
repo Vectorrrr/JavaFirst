@@ -6,7 +6,7 @@ import java.util.Scanner;
  * Created by CraZy_IVAN on 15.02.16.
  */
 public class ConsoleReader implements Reader {
-    Scanner sc;
+    private Scanner sc;
 
     public ConsoleReader() {
         sc = new Scanner(System.in);
@@ -22,5 +22,10 @@ public class ConsoleReader implements Reader {
     @Override
     public boolean canRead() {
         return sc.hasNext();
+    }
+
+    @Override
+    public void close() {
+        System.out.println("I close1");
     }
 }

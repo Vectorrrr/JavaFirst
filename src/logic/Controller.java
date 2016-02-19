@@ -1,6 +1,9 @@
 package logic;
 
-import model.Settings;
+import logic.service.CalcService;
+import logic.service.CalculationService;
+import logic.service.SearchService;
+import model.ManagerSettings;
 import view.reader.ConsoleReader;
 import view.*;
 import view.reader.FileReader;
@@ -8,7 +11,6 @@ import view.reader.Reader;
 import view.writer.ConsoleWriter;
 
 import java.io.FileNotFoundException;
-import java.util.IllegalFormatException;
 
 /**
  * Created by CraZy_IVAN on 15.02.16.
@@ -20,12 +22,10 @@ public  class Controller {
     private Reader exampleReader;
     private View view;
     private ConsoleWriter consoleWriter;
-    private CalculationService calc;
     private String userAns;
 
     public Controller() {
         consoleReader = new ConsoleReader();
-        calc = new CalculationService();
         view = new View();
         consoleWriter = new ConsoleWriter();
     }
@@ -66,9 +66,7 @@ public  class Controller {
                 view.Buy();
                 break;
             } else if ("1".equals(userAns)) {
-                consoleWriter.write("Input your example\n");
-                consoleWriter.write("Your answer: " + calc.calculate(exampleReader.getString()) + "\n");
-
+                doCalc();
             } else if ("2".equals(userAns)) {
                 settingsMenu();
 
@@ -79,6 +77,8 @@ public  class Controller {
         }
 
     }
+
+
 
     private void workWithFile() {
         while (true) {
@@ -94,7 +94,7 @@ public  class Controller {
                 break;
             } else if ("1".equals(userAns)) {
                 if (exampleReader.canRead()) {
-                    consoleWriter.write("Your answer: " + calc.calculate(exampleReader.getString()) + "\n");
+                    doCalc();
                 } else {
                     consoleWriter.write("I read all your file!");
                     view.Buy();
@@ -106,6 +106,24 @@ public  class Controller {
             }
 
         }
+    }
+    private void doCalc() {
+        consoleWriter.write("Input you example:\n");
+        String temp=exampleReader.getString();
+        if(temp.length()==0){
+            return;
+        }
+        CalcService calcService=calcServiceFactory(temp);
+        consoleWriter.write("Your answer: \n" + calcService.calculate(temp) + "\n");
+    }
+    private CalcService calcServiceFactory(String s){
+
+        if(s.contains("findText")){
+            return new SearchService();
+        }else {
+            return new CalculationService();
+        }
+
     }
 
     //todo This is Reader Factory?
@@ -160,14 +178,14 @@ public  class Controller {
         consoleWriter.write("Input base operation one of this");
         view.printBaseOper();
         String baseOper = consoleReader.getString();
-        if (!Settings.addOverloadOperation(overOper, baseOper)) {
+        if (!ManagerSettings.addOverloadOperation(overOper, baseOper)) {
             consoleWriter.write("You input incorrect operation");
         }
     }
 
     private void removeOper() {
         consoleWriter.write("Input you over Sing");
-        Settings.removeOperation(consoleReader.getString());
+        ManagerSettings.removeOperation(consoleReader.getString());
     }
 
 

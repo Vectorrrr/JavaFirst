@@ -1,6 +1,6 @@
 package view;
 //todo import all classes or one by one
-import model.Settings;
+import model.ManagerSettings;
 import model.operation.BasicOperation;
 import view.writer.*;
 
@@ -40,7 +40,7 @@ public class View {
         consoleWriter.write("If you want read from file type 2");
     }
     public void printAllOverOper() {
-        consoleWriter.write(Settings.getAllOverloadOper());
+        consoleWriter.write(ManagerSettings.getAllOverloadOper());
     }
 
     public void printBaseOper() {

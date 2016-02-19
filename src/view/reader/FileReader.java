@@ -2,6 +2,7 @@ package view.reader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -9,8 +10,8 @@ import java.util.Scanner;
  */
 public class FileReader implements Reader {
     private final static String STRING_EMPTY = "";
-    Scanner sc;
-    String temp=null;
+    private Scanner sc;
+    private String temp=null;
     public FileReader(String path) throws FileNotFoundException {
         if (!(new File(path).exists())) {
             throw new FileNotFoundException("Your file did't found!!!");
@@ -38,5 +39,11 @@ public class FileReader implements Reader {
             return false;
         }
         return true;
+    }
+
+
+    @Override
+    public void close() {
+        sc.close();
     }
 }

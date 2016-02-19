@@ -1,10 +1,9 @@
-package logic;
+package logic.service;
 
 import model.Data;
-import model.Settings;
+import model.ManagerSettings;
 import model.function.BaseBinaryFunction;
 import model.function.BaseUnaryFunction;
-import model.function.Function;
 import model.operation.BasicOperation;
 import model.operation.Bracket;
 import model.operation.Sing;
@@ -14,7 +13,7 @@ import java.util.*;
 /**
  * Created by CraZy_IVAN on 16.02.16.
  */
-public class CalculationService {
+public class CalculationService implements  CalcService {
 
 
     private static List<Data> mainSequence = new ArrayList<Data>();
@@ -43,11 +42,15 @@ public class CalculationService {
     private String threadString;
     private int stringPosition = 0;
 
+    public String calculate(String s) {
 
-    public double calculate(String s) {
+        return Double.valueOf(getAnswer(s)).toString();
+    }
+
+    private double getAnswer(String s) {
         stringPosition = 0;
         threadString = s;
-        Settings.normalaizeString(threadString);
+       threadString= ManagerSettings.normalaizeString(threadString);
         if (!createStacks()) {
             throw new IllegalArgumentException("\n You input incorrect sequence!!!");
         }
@@ -153,14 +156,14 @@ public class CalculationService {
             }
             flagNumber = true;
             if (flagDot) {
-                if (++countAfterDot > Settings.MAX_LENGTH_AFTER_DOT) {
+                if (++countAfterDot > ManagerSettings.MAX_LENGTH_AFTER_DOT) {
                     throw new IllegalStateException("You whant a lot of sing after dot!!!");
                 }
                 tempValue += (Double.valueOf(threadString.charAt(stringPosition)) - 48) * mulAfterDot;
                 mulAfterDot /= 10;
 
             } else {
-                if (++countSing > Settings.MAX_SING) {
+                if (++countSing > ManagerSettings.MAX_SING) {
                     throw new IllegalStateException("You whant a lot of sing!!!");
                 }
                 tempValue = tempValue * 10 + (Double.valueOf(threadString.charAt(stringPosition)) - 48);
