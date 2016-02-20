@@ -3,7 +3,7 @@ package model.operation;
 /**
  * Created by igladush on 17.02.16.
  */
-public enum BasicOperation  implements Operation {
+public enum BinaryOperation implements Operation {
     PLUS("+", 1) {
         @Override
         public double apply(double x, double y) {
@@ -40,7 +40,7 @@ public enum BasicOperation  implements Operation {
     final String sing;
     final int priory;
 
-    BasicOperation(String sing, int priory) {
+    BinaryOperation(String sing, int priory) {
         this.sing = sing;
         this.priory = priory;
     }

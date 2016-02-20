@@ -3,7 +3,7 @@ package model;
 import model.function.BaseBinaryFunction;
 import model.function.BaseUnaryFunction;
 import model.function.Function;
-import model.operation.BasicOperation;
+import model.operation.BinaryOperation;
 import model.operation.Bracket;
 import model.operation.OverloadOperation;
 
@@ -44,7 +44,7 @@ public class ManagerSettings {
             }
 
         }
-        for (BasicOperation oper : BasicOperation.values()) {
+        for (BinaryOperation oper : BinaryOperation.values()) {
             if (overOper.contains(oper.getSing())) {
                 return false;
             }

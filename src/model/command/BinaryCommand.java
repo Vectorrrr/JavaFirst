@@ -1,22 +1,22 @@
 package model.command;
 
-import model.operation.BasicOperation;
+import model.operation.BinaryOperation;
 
 import java.util.Deque;
 
 /**
  * Created by igladush on 19.02.16.
  */
-public class OperationCommand implements Command {
+public class BinaryCommand implements Command {
 
 
-    BasicOperation basicOperation;
-    public OperationCommand(BasicOperation basicOperation) {
-        this.basicOperation = basicOperation;
+    BinaryOperation binaryOperation;
+    public BinaryCommand(BinaryOperation binaryOperation) {
+        this.binaryOperation = binaryOperation;
     }
 
-    public BasicOperation getBasicOperation() {
-        return basicOperation;
+    public BinaryOperation getBasicOperation() {
+        return binaryOperation;
     }
     @Override
     public void apply(Deque<Double> sequence) {
@@ -27,7 +27,7 @@ public class OperationCommand implements Command {
         sequence.pop();
         Double y=sequence.peek();
         sequence.pop();
-        sequence.push(basicOperation.apply(x,y));
+        sequence.push(binaryOperation.apply(x,y));
 
     }
 }

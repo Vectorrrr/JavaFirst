@@ -1,7 +1,7 @@
 package view;
 //todo import all classes or one by one
 import model.ManagerSettings;
-import model.operation.BasicOperation;
+import model.operation.BinaryOperation;
 import view.writer.*;
 
 
@@ -46,7 +46,7 @@ public class View {
     public void printBaseOper() {
         //todo may be one const?
         StringBuffer sb = new StringBuffer();
-        for (BasicOperation bas : BasicOperation.values()) {
+        for (BinaryOperation bas : BinaryOperation.values()) {
             sb.append(bas.getSing()).append("\n");
 
         }

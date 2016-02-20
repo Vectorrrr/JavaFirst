@@ -4,7 +4,7 @@ import model.Data;
 import model.ManagerSettings;
 import model.function.BaseBinaryFunction;
 import model.function.BaseUnaryFunction;
-import model.operation.BasicOperation;
+import model.operation.BinaryOperation;
 import model.operation.Bracket;
 import model.operation.Sing;
 
@@ -79,7 +79,7 @@ public class CalculationService implements  CalcService {
     }
 
     private void doOperation(Double op1, Double op2, String sing) {
-        for (BasicOperation b : BasicOperation.values()) {
+        for (BinaryOperation b : BinaryOperation.values()) {
             if (b.getSing().equals(sing)) {
                 tempValueDeque.push(b.apply(op1, op2));
             }
@@ -262,7 +262,7 @@ public class CalculationService implements  CalcService {
     }
 
     private void addOperation(String val) {
-        BasicOperation oper = getBasicOperation(val);
+        BinaryOperation oper = getBasicOperation(val);
         while (temSingDeque.size() > 0 &&
                 temSingDeque.peek().getPriory() >= oper.getPriory() &&
                 temSingDeque.peek().getSing() != "(") {
@@ -300,7 +300,7 @@ public class CalculationService implements  CalcService {
 
     //check is operation or not
     private boolean isOperation(String oper) {
-        for (BasicOperation data : BasicOperation.values()) {
+        for (BinaryOperation data : BinaryOperation.values()) {
             if (data.getSing().equals(oper)) {
                 return true;
             }
@@ -318,8 +318,8 @@ public class CalculationService implements  CalcService {
     }
 
     //return defualtSing or string empty
-    private BasicOperation getBasicOperation(String val) {
-        for (BasicOperation b : BasicOperation.values()) {
+    private BinaryOperation getBasicOperation(String val) {
+        for (BinaryOperation b : BinaryOperation.values()) {
             if (b.getSing().equals(val)) {
                 return b;
             }
