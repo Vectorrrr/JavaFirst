@@ -1,8 +1,6 @@
 package model.operation;
 
-import javax.sound.midi.Sequence;
 import java.util.Deque;
-import java.util.List;
 
 /**
  * Created by igladush on 17.02.16.
@@ -41,8 +39,8 @@ public enum BinaryOperation implements Operation, Command {
     };
 
 
-    final String sing;
-    final int priory;
+    private final String sing;
+    private final int priory;
 
     BinaryOperation(String sing, int priory) {
         this.sing = sing;

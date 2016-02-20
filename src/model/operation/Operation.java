@@ -6,6 +6,6 @@ package model.operation;
 
     //todo May be all interface in other packet
     //todo think about API!!!
-public interface Operation extends Sing {
+interface Operation extends Sing,Command {
      double apply(double x, double y);
 }

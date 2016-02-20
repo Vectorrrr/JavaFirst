@@ -4,8 +4,8 @@ import logic.service.CalcService;
 import logic.service.CalculationService;
 import logic.service.SearchService;
 import model.ManagerSettings;
+import view.View;
 import view.reader.ConsoleReader;
-import view.*;
 import view.reader.FileReader;
 import view.reader.Reader;
 import view.writer.ConsoleWriter;
@@ -16,7 +16,7 @@ import java.io.FileNotFoundException;
  * Created by CraZy_IVAN on 15.02.16.
  */
 
-public  class Controller {
+public class Controller {
     //todo Controller need writer?
     private Reader consoleReader;
     private Reader exampleReader;
@@ -31,7 +31,6 @@ public  class Controller {
     }
 
     public void run() {
-
 
         while (true) {
             view.printSettingsRead();
@@ -49,12 +48,14 @@ public  class Controller {
                 workWithConsole();
                 break;
             }
+
         }
 
     }
 
     private void workWithConsole() {
-        while (true) {
+        boolean z=true;
+        while (z) {
             view.printMainMenu();
             try {
                 userAns = consoleReader.getString();
@@ -62,26 +63,26 @@ public  class Controller {
                 consoleWriter.write("You input incorrect value\n Try again\n");
                 continue;
             }
-            if ("0".equals(userAns)) {
-                view.Buy();
-                break;
-            } else if ("1".equals(userAns)) {
-                doCalc();
-            } else if ("2".equals(userAns)) {
-                settingsMenu();
-
-            } else {
-                view.incorrectInput();
+            switch (userAns) {
+                case ("0"):
+                    view.Buy();
+                    z=false;
+                    break;
+                case ("1"):
+                    doCalc();
+                    break;
+                case ("2"):
+                    settingsMenu();
+                    break;
+                default:
+                    view.incorrectInput();
             }
-
         }
-
     }
 
-
-
     private void workWithFile() {
-        while (true) {
+        boolean z=true;
+        while (z) {
             view.printFileMenu();
             try {
                 userAns = consoleReader.getString();
@@ -89,38 +90,42 @@ public  class Controller {
                 consoleWriter.write("You input incorrect value\n Try again\n");
                 continue;
             }
-            if ("0".equals(userAns)) {
-                view.Buy();
-                break;
-            } else if ("1".equals(userAns)) {
-                if (exampleReader.canRead()) {
-                    doCalc();
-                } else {
-                    consoleWriter.write("I read all your file!");
+            switch (userAns) {
+                case "0":
                     view.Buy();
                     break;
-                }
+                case ("1"):
+                    if (exampleReader.canRead()) {
+                        doCalc();
+                    } else {
+                        consoleWriter.write("I read all your file!");
+                        view.Buy();
 
-            } else {
-                consoleWriter.write("You input incorrect value\n Try again\n");
+                    }
+                    break;
+                default:
+                    consoleWriter.write("You input incorrect value\n Try again\n");
+                    z=false;
+                    break;
             }
-
         }
     }
+
     private void doCalc() {
         consoleWriter.write("Input you example:\n");
-        String temp=exampleReader.getString();
-        if(temp.length()==0){
+        String temp = exampleReader.getString();
+        if (temp.length() == 0) {
             return;
         }
-        CalcService calcService=calcServiceFactory(temp);
+        CalcService calcService = calcServiceFactory(temp);
         consoleWriter.write("Your answer: \n" + calcService.calculate(temp) + "\n");
     }
-    private CalcService calcServiceFactory(String s){
 
-        if(s.contains("findText")){
+    private CalcService calcServiceFactory(String s) {
+
+        if (s.contains("findText")) {
             return new SearchService();
-        }else {
+        } else {
             return new CalculationService();
         }
 
@@ -131,8 +136,7 @@ public  class Controller {
         if ("1".equals(userAns)) {
             exampleReader = new ConsoleReader();
             return true;
-        }
-        else if("2".equals(userAns)){
+        } else if ("2".equals(userAns)) {
             try {
                 String path;
                 consoleWriter.write("Input path to your file");
@@ -143,7 +147,7 @@ public  class Controller {
                 return false;
             }
             return true;
-        }else{
+        } else {
             throw new IllegalArgumentException("I don't know this model Reader");
 
         }
@@ -166,6 +170,7 @@ public  class Controller {
                     break;
                 default:
                     consoleWriter.write("You input incorrect sing! Please input number in range 0 to 2");
+                    break;
             }
             view.printSettings();
             ans = consoleReader.getString();

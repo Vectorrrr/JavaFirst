@@ -1,4 +1,4 @@
-
+package test;
 
 import logic.service.CalculationService;
 import org.junit.After;
@@ -6,13 +6,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.TestCase.assertTrue;
 
 /**
  * Created by igladush on 16.02.16.
  */
 public class Tester {
-    final double ACCURACY = 0.00000001;
+    private final double ACCURACY = 0.00000001;
     private CalculationService calSer;
 
     @Before
@@ -22,7 +21,7 @@ public class Tester {
 
 
     @Test
-    public void testBaseOperations() {
+    public void binaryOperationTest() {
         assertEquals(2.2, Double.valueOf(calSer.calculate("1.1+      0000001.1")), ACCURACY);
         assertEquals(2.2, Double.valueOf(calSer.calculate("1.1   + 1.1")), ACCURACY);
         assertEquals(81, Double.valueOf(calSer.calculate("9^   2.0")), ACCURACY);
@@ -44,7 +43,13 @@ public class Tester {
 
     }
     @Test
-    public void testBaseUnaryFunction(){
+    public void unaryOperationTest(){
+        assertEquals(2, Double.valueOf(calSer.calculate("--2")), ACCURACY);
+//        assertEquals(2, Double.valueOf(calSer.calculate("-(- 2)")), ACCURACY);
+//        assertEquals(2, Double.valueOf(calSer.calculate("-2--2")), ACCURACY);
+    }
+    @Test
+    public void baseUnaryFunctionTest(){
         assertEquals(2, Double.valueOf(calSer.calculate("inc(1)")), ACCURACY);
         assertEquals(16.3, Double.valueOf(calSer.calculate("iNC(15.3   )")), ACCURACY);
         assertEquals(16.333, Double.valueOf(calSer.calculate("DeC(    17.3330  )")), ACCURACY);
@@ -52,13 +57,13 @@ public class Tester {
     }
 
     @Test
-    public void testBaseBinaryFunction(){
+    public void baseBinaryFunctionTest(){
         assertEquals(11, Double.valueOf(calSer.calculate("mUL( 2.00  5.5  )")), ACCURACY);
         assertEquals(1, Double.valueOf(calSer.calculate("DIV (15/15)")), ACCURACY);
     }
 
     @Test
-    public void testHybridExercise(){
+    public void hybridExcerciseTest(){
         assertEquals(7.5,Double.valueOf( calSer.calculate("(DIV(18.3/6.1) + 3^2*2/4)")), ACCURACY);
         assertEquals(38, Double.valueOf(calSer.calculate("(MuL(12 3)+DIV(18/6) + ((inc(15.5)/dec(17.5))^5))-SuM(1 1)")), ACCURACY);
     }
@@ -81,10 +86,6 @@ public class Tester {
         calSer.calculate("(121.");
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void incorrectInputTest2(){
-        calSer.calculate("2342 +22----22");
-    }
 
     @Test(expected = IllegalArgumentException.class)
     public void incorrectInputTest3(){
@@ -100,10 +101,7 @@ public class Tester {
     public void incorrectInputTest5(){
         calSer.calculate("asd-123");
     }
-    @Test(expected = IllegalArgumentException.class)
-    public void incorrectInputTest6(){
-        calSer.calculate("(-(1-2))");
-    }
+
     @Test(expected = IllegalArgumentException.class)
     public void incorrectInputTest7(){
         calSer.calculate("15-12-4-");

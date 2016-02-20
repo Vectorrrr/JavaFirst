@@ -4,10 +4,7 @@ import model.TextSearchResult;
 import view.reader.FileReader;
 import view.reader.Reader;
 
-import javax.xml.soap.Text;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,9 +46,9 @@ public class SearchService implements CalcService {
             throw new IllegalStateException("You input incorrect file ");
         }
         if (mainFile.isDirectory()) {
-            List<TextSearchResult> result = new ArrayList<TextSearchResult>();
+            List<TextSearchResult> result = new ArrayList<>();
             String s[] = mainFile.list();
-            for (int i = 0; i < s.length; ++i) {
+            for (char i = 0; i < s.length; ++i) {
                 File f = fileFactory(mainFile + "/" + s[i]);
                 if (f.isDirectory()) {
                     result.addAll(doSearch(f));

@@ -25,7 +25,7 @@ public enum BaseBinaryFunction implements Function {
         }
     };
 
-    private String function;
+    private final String function;
 
     BaseBinaryFunction(String function) {
         this.function = function;

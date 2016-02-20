@@ -16,7 +16,7 @@ public enum BaseUnaryFunction  implements Function {
         }
     };
 
-    private String function;
+    private final String function;
 
     BaseUnaryFunction(String function) {
         this.function = function;

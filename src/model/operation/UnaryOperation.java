@@ -1,6 +1,5 @@
 package model.operation;
 
-import javax.sound.midi.Sequence;
 import java.util.Deque;
 
 /**

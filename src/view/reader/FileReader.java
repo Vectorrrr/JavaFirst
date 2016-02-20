@@ -2,7 +2,6 @@ package view.reader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -35,7 +34,7 @@ public class FileReader implements Reader {
         while(sc.hasNext() && (temp==null||STRING_EMPTY.equals(temp)) ){
             temp= sc.nextLine();
         }
-        if(temp==null||STRING_EMPTY.equals(temp)){
+        if(STRING_EMPTY.equals(temp)){
             return false;
         }
         return true;

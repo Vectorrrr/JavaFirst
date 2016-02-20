@@ -1,8 +1,10 @@
 package view;
 //todo import all classes or one by one
+
 import model.ManagerSettings;
 import model.operation.BinaryOperation;
-import view.writer.*;
+import view.writer.ConsoleWriter;
+import view.writer.Writer;
 
 
 /**

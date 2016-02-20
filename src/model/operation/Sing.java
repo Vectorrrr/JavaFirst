@@ -6,8 +6,8 @@ package model.operation;
 public interface Sing {
     int MAX_PRIORY = 100000;
     int MIN_PRIORY = -100000;
-
+    int getPriory();
     String getSing();
 
-    int getPriory();
+
 }

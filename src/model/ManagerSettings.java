@@ -19,7 +19,7 @@ public class ManagerSettings {
     public static final int MAX_SING = 18;
     public static final int MAX_PRIORY = 1000;
 
-    private static List<OverloadOperation> overloadOperations = new ArrayList<OverloadOperation>();
+    private static List<OverloadOperation> overloadOperations = new ArrayList<>();
 
     public static boolean addOverloadOperation(String overOper, String baseOper) {
         if (overOper == null) {

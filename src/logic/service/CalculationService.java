@@ -1,22 +1,22 @@
 package logic.service;
 
-import model.Data;
 import model.ManagerSettings;
 import model.function.BaseBinaryFunction;
 import model.function.BaseUnaryFunction;
-import model.operation.BinaryOperation;
-import model.operation.Bracket;
-import model.operation.Sing;
+import model.operation.*;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 
 /**
  * Created by CraZy_IVAN on 16.02.16.
  */
-public class CalculationService implements  CalcService {
+public class CalculationService implements CalcService {
 
 
-    private static List<Data> mainSequence = new ArrayList<Data>();
+    private static List<Command> mainSequence = new ArrayList<>();
 
     //temp deque for operation
     private static Deque<Sing> temSingDeque = new ArrayDeque<>();
@@ -50,40 +50,15 @@ public class CalculationService implements  CalcService {
     private double getAnswer(String s) {
         stringPosition = 0;
         threadString = s;
-       threadString= ManagerSettings.normalaizeString(threadString);
+        threadString = ManagerSettings.normalaizeString(threadString);
         if (!createStacks()) {
             throw new IllegalArgumentException("\n You input incorrect sequence!!!");
         }
 
-        for (Data data : mainSequence) {
-            if (data.isOperand()) {
-                tempValueDeque.push(data.getValue());
-            } else {
-                if (checkWeCanDoOperations()) {
-                    Double op1 = tempValueDeque.peek();
-                    tempValueDeque.pop();
-                    Double op2 = tempValueDeque.peek();
-                    tempValueDeque.pop();
-                    doOperation(op1, op2, data.getSing());
-                }
-            }
+        for (Command data : mainSequence) {
+            data.apply(tempValueDeque);
         }
         return tempValueDeque.peek();
-    }
-
-    private boolean checkWeCanDoOperations() {
-        if (tempValueDeque.size() < 2) {
-            throw new IllegalArgumentException("\n You input incorrect sequence!!!");
-        }
-        return true;
-    }
-
-    private void doOperation(Double op1, Double op2, String sing) {
-        for (BinaryOperation b : BinaryOperation.values()) {
-            if (b.getSing().equals(sing)) {
-                tempValueDeque.push(b.apply(op1, op2));
-            }
-        }
     }
 
     //false if incorrect String
@@ -92,21 +67,23 @@ public class CalculationService implements  CalcService {
         clearStack();
         for (; stringPosition < threadString.length(); ++stringPosition) {
 
-            String val = new Character(threadString.charAt(stringPosition)).toString();
+            String val =  Character.toString(threadString.charAt(stringPosition));
+
 
             if (" ".equals(val)) {
                 continue;
             }
             //when we read digit flagUnary become false;
             if (Character.isDigit(threadString.charAt(stringPosition))) {
-                flagUnary=false;
+                flagUnary = false;
                 getNextNumber();
             } else if (Character.isAlphabetic(threadString.charAt(stringPosition))) {
+                flagUnary = false;
                 doOperation();
             } else {
 
                 if (flagNumber) {
-                    mainSequence.add(new Data(tempValue));
+                    mainSequence.add(new ValueCommand(tempValue));
                     resetFlagNumber();
                 }
                 if (isBracket(val)) {
@@ -117,11 +94,12 @@ public class CalculationService implements  CalcService {
                     return false;
                 }
                 addOperation(val);
+                flagUnary = true;
             }
         }
 
         if (flagNumber) {
-            mainSequence.add(new Data(tempValue));
+            mainSequence.add(new ValueCommand(tempValue));
             resetFlagNumber();
         }
         while (temSingDeque.size() > 0) {
@@ -129,7 +107,8 @@ public class CalculationService implements  CalcService {
                 System.out.println("You input invalid data!!!");
                 return false;
             }
-            mainSequence.add(new Data(temSingDeque.peek()));
+            //todo How do this better
+            mainSequence.add((Command) temSingDeque.peek());
             temSingDeque.pop();
 
         }
@@ -181,7 +160,7 @@ public class CalculationService implements  CalcService {
         String oper = threadString.substring(stringPosition, stringPosition + 3).toLowerCase();
         for (BaseBinaryFunction basFun : BaseBinaryFunction.values()) {
             if (basFun.getFunction().equals(oper)) {
-                doBinaryOperation(basFun);
+                doBinaryFunction(basFun);
                 return;
             }
         }
@@ -203,12 +182,12 @@ public class CalculationService implements  CalcService {
         resetFlagNumber();
         stringPosition++;
         tempValue = fun.apply(x);
-        mainSequence.add(new Data(tempValue));
+        mainSequence.add(new ValueCommand(tempValue));
 
         findFirstClosedBrakets();
     }
 
-    private void doBinaryOperation(BaseBinaryFunction basFun) {
+    private void doBinaryFunction(BaseBinaryFunction basFun) {
         stringPosition += 3;
 
         findFirstOpenBrakets();
@@ -223,7 +202,7 @@ public class CalculationService implements  CalcService {
         double y = tempValue;
         resetFlagNumber();
         tempValue = basFun.apply(x, y);
-        mainSequence.add(new Data(tempValue));
+        mainSequence.add(new ValueCommand(tempValue));
         resetFlagNumber();
 
         findFirstClosedBrakets();
@@ -262,11 +241,11 @@ public class CalculationService implements  CalcService {
     }
 
     private void addOperation(String val) {
-        BinaryOperation oper = getBasicOperation(val);
+        Sing oper = operationFactory(val);
         while (temSingDeque.size() > 0 &&
-                temSingDeque.peek().getPriory() >= oper.getPriory() &&
-                temSingDeque.peek().getSing() != "(") {
-            mainSequence.add(new Data(temSingDeque.peek()));
+                (temSingDeque.peek().getPriory() >= oper.getPriory() && !(temSingDeque.peek().getPriory() == oper.getPriory() && flagUnary) )&&
+                 !"(".equals(temSingDeque.peek().getSing())) {
+            mainSequence.add((Command) temSingDeque.peek());
             temSingDeque.pop();
 
         }
@@ -274,20 +253,28 @@ public class CalculationService implements  CalcService {
 
     }
 
+    private Sing operationFactory(String val) {
+        if (flagUnary) {
+            return getUnaryOperation(val);
+        } else {
+            return getBinaryOperation(val);
+        }
+    }
+
     private void addBracket(String val) {
         if ("(".equals(val)) {
+            flagUnary = true;
             temSingDeque.push(Bracket.OPENBRACKET);
-
         } else if (")".equals(val)) {
-            flagUnary=false;
+            flagUnary = false;
             while (temSingDeque.size() != 0 &&
-                    temSingDeque.peek().getSing() != "(") {
-                mainSequence.add(new Data(temSingDeque.peek()));
+                     !"(".equals(temSingDeque.peek().getSing())) {
+                mainSequence.add((Command) temSingDeque.peek());
                 temSingDeque.pop();
             }
 
             if (temSingDeque.size() == 0 ||
-                    temSingDeque.peek().getSing() != "(") {
+                     !"(".equals(temSingDeque.peek().getSing())) {
                 System.out.println("Stack clear but you put ) Try again");
                 throw new IllegalArgumentException("You input incorrect operation");
             }
@@ -317,13 +304,21 @@ public class CalculationService implements  CalcService {
     }
 
     //return defualtSing or string empty
-    private BinaryOperation getBasicOperation(String val) {
-        for (BinaryOperation b : BinaryOperation.values()) {
-            if (b.getSing().equals(val)) {
-                return b;
+    private BinaryOperation getBinaryOperation(String val) {
+        for (BinaryOperation binOper : BinaryOperation.values()) {
+            if (binOper.getSing().equals(val)) {
+                return binOper;
             }
         }
+        throw new IllegalArgumentException("You input incorrect operation");
+    }
 
+    private UnaryOperation getUnaryOperation(String val) {
+        for (UnaryOperation unOper : UnaryOperation.values()) {
+            if (unOper.getSing().equals(val)) {
+                return unOper;
+            }
+        }
         throw new IllegalArgumentException("You input incorrect operation");
     }
 
