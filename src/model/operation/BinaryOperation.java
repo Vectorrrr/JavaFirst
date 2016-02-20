@@ -1,9 +1,13 @@
 package model.operation;
 
+import javax.sound.midi.Sequence;
+import java.util.Deque;
+import java.util.List;
+
 /**
  * Created by igladush on 17.02.16.
  */
-public enum BinaryOperation implements Operation {
+public enum BinaryOperation implements Operation, Command {
     PLUS("+", 1) {
         @Override
         public double apply(double x, double y) {
@@ -45,6 +49,13 @@ public enum BinaryOperation implements Operation {
         this.priory = priory;
     }
 
+    public String getSing() {
+        return this.sing;
+    }
+
+    public int getPriory() {
+        return this.priory;
+    }
 
     public abstract double apply(double x, double y);
 
@@ -53,11 +64,16 @@ public enum BinaryOperation implements Operation {
         return this.sing;
     }
 
-    public String getSing() {
-        return this.sing;
+    @Override
+    public void apply(Deque<Double> sequence) {
+        if (sequence.size() < 2) {
+            throw new IllegalArgumentException("You want do binary operation, but you don't have two operands!!!");
+        }
+        Double first = sequence.peek();
+        sequence.pop();
+        Double second=sequence.peek();
+        sequence.pop();
+        sequence.push(apply(first,second));
     }
 
-    public int getPriory() {
-        return this.priory;
-    }
 }

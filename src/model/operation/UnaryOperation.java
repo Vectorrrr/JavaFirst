@@ -1,18 +1,21 @@
 package model.operation;
 
+import javax.sound.midi.Sequence;
+import java.util.Deque;
+
 /**
  * Created by CraZy_IVAN on 20.02.16.
  */
-public enum UnaryOperation implements Sing {
-    PLUS("+"){
+public enum UnaryOperation implements Sing, Command {
+    PLUS("+") {
         @Override
-        public double operation(double a) {
+        public double applay(double a) {
             return a;
         }
     },
-    MINUS("-"){
+    MINUS("-") {
         @Override
-        public double operation(double a) {
+        public double applay(double a) {
             return -a;
         }
     };
@@ -32,5 +35,16 @@ public enum UnaryOperation implements Sing {
     public int getPriory() {
         return MAX_PRIORY;
     }
-    public abstract double operation(double a);
+
+    public abstract double applay(double a);
+
+    @Override
+    public void apply(Deque<Double> sequence) {
+        if (sequence.size() == 0) {
+            throw new IllegalArgumentException("You want do unary operation,but you don't have operands");
+        }
+        Double x = sequence.peek();
+        sequence.pop();
+        sequence.push(applay(x));
+    }
 }

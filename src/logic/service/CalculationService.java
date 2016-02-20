@@ -30,7 +30,7 @@ public class CalculationService implements  CalcService {
     //show we read dot,or not
     private boolean flagDot = false;
     //show we read operation last or not
-    private boolean flagOper = false;
+    private boolean flagUnary = true;
 
     private double tempValue = 0;
 
@@ -86,7 +86,7 @@ public class CalculationService implements  CalcService {
         }
     }
 
-    //flase if incorrect String
+    //false if incorrect String
     //true if correct
     private boolean createStacks() {
         clearStack();
@@ -97,9 +97,9 @@ public class CalculationService implements  CalcService {
             if (" ".equals(val)) {
                 continue;
             }
-
+            //when we read digit flagUnary become false;
             if (Character.isDigit(threadString.charAt(stringPosition))) {
-                //todo How much cost a transfer string?
+                flagUnary=false;
                 getNextNumber();
             } else if (Character.isAlphabetic(threadString.charAt(stringPosition))) {
                 doOperation();
@@ -187,14 +187,14 @@ public class CalculationService implements  CalcService {
         }
         for (BaseUnaryFunction unarFun : BaseUnaryFunction.values()) {
             if (unarFun.getFunction().equals(oper)) {
-                doUnaryOperation(unarFun);
+                doUnaryFunction(unarFun);
                 return;
             }
         }
         throw new IllegalStateException("You input incorrect operation!!!");
     }
 
-    private void doUnaryOperation(BaseUnaryFunction fun) {
+    private void doUnaryFunction(BaseUnaryFunction fun) {
         stringPosition += 3;
         findFirstOpenBrakets();
         findNextNumber();
@@ -276,11 +276,10 @@ public class CalculationService implements  CalcService {
 
     private void addBracket(String val) {
         if ("(".equals(val)) {
-            //todo May be this is not right?
             temSingDeque.push(Bracket.OPENBRACKET);
 
         } else if (")".equals(val)) {
-
+            flagUnary=false;
             while (temSingDeque.size() != 0 &&
                     temSingDeque.peek().getSing() != "(") {
                 mainSequence.add(new Data(temSingDeque.peek()));

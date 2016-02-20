@@ -1,4 +1,4 @@
-package model.command;
+package model.operation;
 
 import java.util.Deque;
 

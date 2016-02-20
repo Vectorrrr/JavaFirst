@@ -1,4 +1,6 @@
-package model.command;
+package model.operation;
+
+import model.operation.Command;
 
 import java.util.Deque;
 
