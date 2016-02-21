@@ -76,13 +76,13 @@ public class SearchService implements CalcService {
     private File fileFactory(String path) {
         String Os = getOs();
         if ("Linux".equals(Os) || "Mac OS X".equals(Os)) {
-            path = path.replaceAll(";", ":");
+            path = path.replaceAll(":", ";");
             path = path.replaceAll("\\\\" + "\\\\", "/");
             //todo how make this easier
             return new File(path);
-        } else if ("Windows".equals(Os)) {
-            path = path.replaceAll(":", ";");
-            path = path.replaceAll("/", "\\\\" + "\\\\");
+        } else if (Os!=null && Os.contains("Windows")) {
+            path = path.replaceAll(";", ":");
+            path = path.replaceAll( "\\\\" + "\\\\","/");
             return new File(path);
         } else {
             throw new IllegalStateException("I don't know your OC");
