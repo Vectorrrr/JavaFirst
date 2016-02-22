@@ -131,9 +131,9 @@ public class Controller {
             String temp=consoleReader.getString();
             switch (temp){
                 case"1":
-                    return new CalculationService<Integer>();
+                    return new CalculationService<Integer>(1);
                 default:
-                    return new CalculationService<Double>();
+                    return new CalculationService<Double>(12.2);
             }
         }
 

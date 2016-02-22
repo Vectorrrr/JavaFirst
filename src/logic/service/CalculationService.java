@@ -43,7 +43,9 @@ public class CalculationService<T extends Number> implements CalcService {
     private String threadString;
     private int stringPosition = 0;
 
-
+    public CalculationService(T val){
+        defVal=val;
+    }
     public String calculate(String s) {
 
         return getAnswer(s);
@@ -119,7 +121,6 @@ public class CalculationService<T extends Number> implements CalcService {
     }
 
     private void addToMainSequence() {
-        System.out.println(defVal.getClass());
         if ("class java.lang.Integer".equals(defVal.getClass().toString())) {
             mainSequence.add(new ValueCommand<T>((int)tempValue));
         }else{

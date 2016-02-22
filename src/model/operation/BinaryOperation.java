@@ -34,7 +34,7 @@ public enum BinaryOperation implements Operation {
     POW("^", 3) {
         @Override
         public double apply(double x, double y) {
-            return Math.pow(x, y);
+            return Math.pow(y, x);
         }
     };
 
