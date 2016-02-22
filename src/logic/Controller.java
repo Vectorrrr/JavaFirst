@@ -126,7 +126,15 @@ public class Controller {
         if (s.contains("findText")) {
             return new SearchService();
         } else {
-            return new CalculationService();
+            consoleWriter.write("If you want calc Integer input 1");
+            consoleWriter.write("Else you calc in Double");
+            String temp=consoleReader.getString();
+            switch (temp){
+                case"1":
+                    return new CalculationService<Integer>();
+                default:
+                    return new CalculationService<Double>();
+            }
         }
 
     }

@@ -5,20 +5,25 @@ import java.util.Deque;
 /**
  * Created by igladush on 19.02.16.
  */
-public class ValueCommand implements Command {
+public class ValueCommand<T extends Number> implements Command {
 
 
+    private double value;
 
-    private Double value;
-    public ValueCommand(Double value) {
+    public ValueCommand(double value) {
         this.value = value;
     }
-    public Double getValue() {
+
+    public ValueCommand(int value) {
+        this.value = value;
+    }
+
+    public double getValue() {
         return value;
     }
 
     @Override
-    public void apply(Deque<Double> sequence) {
+    public void apply(Deque sequence) {
         sequence.push(value);
     }
 }

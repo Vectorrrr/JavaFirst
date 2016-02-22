@@ -2,6 +2,7 @@ package view.reader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -12,9 +13,12 @@ public class FileReader implements Reader {
     private Scanner sc;
     private String temp=null;
     public FileReader(String path) throws FileNotFoundException {
-        if (!(new File(path).exists())) {
-            throw new FileNotFoundException("Your file did't found!!!");
-        }
+
+            if (!(new File(path).exists())) {
+                throw new FileNotFoundException("Your file did't found!!!");
+            }
+
+
         sc = new Scanner(new File(path));
     }
 

@@ -5,7 +5,7 @@ import java.util.Deque;
 /**
  * Created by igladush on 17.02.16.
  */
-public enum BinaryOperation implements Operation, Command {
+public enum BinaryOperation implements Operation {
     PLUS("+", 1) {
         @Override
         public double apply(double x, double y) {
@@ -21,7 +21,7 @@ public enum BinaryOperation implements Operation, Command {
     MULTIPLY("*", 2) {
         @Override
         public double apply(double x, double y) {
-            return x * y;
+            return y * x;
         }
     },
     DIVIDE("/", 2) {
@@ -34,7 +34,7 @@ public enum BinaryOperation implements Operation, Command {
     POW("^", 3) {
         @Override
         public double apply(double x, double y) {
-            return Math.pow(y, x);
+            return Math.pow(x, y);
         }
     };
 
@@ -67,11 +67,11 @@ public enum BinaryOperation implements Operation, Command {
         if (sequence.size() < 2) {
             throw new IllegalArgumentException("You want do binary operation, but you don't have two operands!!!");
         }
-        Double first = sequence.peek();
+        double first = sequence.peek();
         sequence.pop();
-        Double second=sequence.peek();
+        double second = sequence.peek();
         sequence.pop();
-        sequence.push(apply(first,second));
+        sequence.push(apply(first, second));
     }
 
 }

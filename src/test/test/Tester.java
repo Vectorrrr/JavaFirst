@@ -45,7 +45,7 @@ public class Tester {
     @Test
     public void unaryOperationTest(){
         assertEquals(2, Double.valueOf(calSer.calculate("--2")), ACCURACY);
-//        assertEquals(2, Double.valueOf(calSer.calculate("-(- 2)")), ACCURACY);
+        assertEquals(2, Double.valueOf(calSer.calculate("-(- 2)")), ACCURACY);
 //        assertEquals(2, Double.valueOf(calSer.calculate("-2--2")), ACCURACY);
     }
     @Test

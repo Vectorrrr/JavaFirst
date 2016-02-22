@@ -15,7 +15,7 @@ public enum UnaryOperation implements Sing, Command {
     MINUS("-") {
         @Override
         public double applay(double a) {
-            return -a;
+            return a;
         }
     };
 
@@ -42,7 +42,7 @@ public enum UnaryOperation implements Sing, Command {
         if (sequence.size() == 0) {
             throw new IllegalArgumentException("You want do unary operation,but you don't have operands");
         }
-        Double x = sequence.peek();
+        double x = sequence.peek();
         sequence.pop();
         sequence.push(applay(x));
     }

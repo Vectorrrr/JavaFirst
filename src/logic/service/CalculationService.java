@@ -13,16 +13,16 @@ import java.util.List;
 /**
  * Created by CraZy_IVAN on 16.02.16.
  */
-public class CalculationService implements CalcService {
+public class CalculationService<T extends Number> implements CalcService {
 
 
-    private static List<Command> mainSequence = new ArrayList<>();
+    private  List<Command> mainSequence = new ArrayList<>();
 
     //temp deque for operation
     private static Deque<Sing> temSingDeque = new ArrayDeque<>();
 
     //temp value deque
-    private static Deque<Double> tempValueDeque = new ArrayDeque<>();
+    private  Deque<Double> tempValueDeque = new ArrayDeque<>();
 
     //show the last time we read Number
     private boolean flagNumber = false;
@@ -32,7 +32,8 @@ public class CalculationService implements CalcService {
     //show we read operation last or not
     private boolean flagUnary = true;
 
-    private double tempValue = 0;
+    private double tempValue ;
+    private T defVal;
 
     private int countSing = 0;
     //May be make one place for this
@@ -42,12 +43,13 @@ public class CalculationService implements CalcService {
     private String threadString;
     private int stringPosition = 0;
 
+
     public String calculate(String s) {
 
-        return Double.valueOf(getAnswer(s)).toString();
+        return getAnswer(s);
     }
 
-    private double getAnswer(String s) {
+    private String getAnswer(String s) {
         stringPosition = 0;
         threadString = s;
         threadString = ManagerSettings.normalaizeString(threadString);
@@ -58,7 +60,7 @@ public class CalculationService implements CalcService {
         for (Command data : mainSequence) {
             data.apply(tempValueDeque);
         }
-        return tempValueDeque.peek();
+        return this.tempValueDeque.peek().toString();
     }
 
     //false if incorrect String
@@ -83,7 +85,8 @@ public class CalculationService implements CalcService {
             } else {
 
                 if (flagNumber) {
-                    mainSequence.add(new ValueCommand(tempValue));
+                    addToMainSequence();
+
                     resetFlagNumber();
                 }
                 if (isBracket(val)) {
@@ -99,7 +102,7 @@ public class CalculationService implements CalcService {
         }
 
         if (flagNumber) {
-            mainSequence.add(new ValueCommand(tempValue));
+          addToMainSequence();
             resetFlagNumber();
         }
         while (temSingDeque.size() > 0) {
@@ -115,13 +118,22 @@ public class CalculationService implements CalcService {
         return true;
     }
 
+    private void addToMainSequence() {
+        System.out.println(defVal.getClass());
+        if ("class java.lang.Integer".equals(defVal.getClass().toString())) {
+            mainSequence.add(new ValueCommand<T>((int)tempValue));
+        }else{
+            mainSequence.add(new ValueCommand<T>(tempValue));
+        }
+    }
+
     private void resetFlagNumber() {
         flagNumber = false;
         flagDot = false;
         countAfterDot = 0;
         countSing = 0;
         mulAfterDot = 0.1;
-        tempValue = 0;
+        tempValue =0;
     }
 
     private void getNextNumber() {
@@ -182,7 +194,7 @@ public class CalculationService implements CalcService {
         resetFlagNumber();
         stringPosition++;
         tempValue = fun.apply(x);
-        mainSequence.add(new ValueCommand(tempValue));
+        addToMainSequence();
 
         findFirstClosedBrakets();
     }
@@ -202,7 +214,7 @@ public class CalculationService implements CalcService {
         double y = tempValue;
         resetFlagNumber();
         tempValue = basFun.apply(x, y);
-        mainSequence.add(new ValueCommand(tempValue));
+        addToMainSequence();
         resetFlagNumber();
 
         findFirstClosedBrakets();

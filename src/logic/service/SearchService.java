@@ -5,6 +5,7 @@ import view.reader.FileReader;
 import view.reader.Reader;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +49,12 @@ public class SearchService implements CalcService {
         if (mainFile.isDirectory()) {
             List<TextSearchResult> result = new ArrayList<>();
             String s[] = mainFile.list();
+            if(s==null){
+                return result;
+            }
             for (char i = 0; i < s.length; ++i) {
                 File f = fileFactory(mainFile + "/" + s[i]);
+
                 if (f.isDirectory()) {
                     result.addAll(doSearch(f));
                 } else {
@@ -156,9 +161,14 @@ public class SearchService implements CalcService {
         if(!file.canRead()){
             return result;
         }
+        if(!file.exists()){
+            return result;
+        }
         try (  Reader read = new FileReader(file.getPath())){
-
-            System.out.println("READ FILE "+file.getName());
+            if(read==null){
+                return result;
+            }
+            System.out.println("READ FILE "+file.getAbsolutePath());
 
             while(read.canRead()){
                 String string=read.getString();
@@ -169,9 +179,13 @@ public class SearchService implements CalcService {
             }
           //  read.close();
             return result;
-        } catch (IOException e) {
-            System.err.print(e);
-            throw new IllegalStateException("I can't read this file");
+        }catch(FileNotFoundException e) {
+            System.out.println("CAN't READ!");
+            return result;
+        }
+        catch (IOException e) {
+            System.err.print(e+file.getAbsolutePath());
+            throw new IllegalStateException("I can't read this file",e);
         }
 
 
