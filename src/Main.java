@@ -13,9 +13,9 @@ public class Main {
 
 
     public static void main(String[] args) {
+
         Controller contrl = new Controller();
         contrl.run();
-
     }
 
 }
