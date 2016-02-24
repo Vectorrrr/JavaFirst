@@ -2,6 +2,8 @@ package model.function;
 
 /**
  * Created by igladush on 18.02.16.
+ * Enum implements Function and execute unary function
+ * @author Gladush Ivan
  */
 public enum BaseUnaryFunction  implements Function {
     INC("inc") {

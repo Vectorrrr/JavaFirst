@@ -12,10 +12,15 @@ import java.util.List;
 
 /**
  * Created by CraZy_IVAN on 16.02.16.
+ * Class implements CalcService
+ * Created for calc base math operation
+ * @author Gladush Ivan
  */
 public class CalculationService<T extends Number> implements CalcService {
 
-
+    /**
+     * Sequence that we get when parse the input string
+     * */
     private  List<Command> mainSequence = new ArrayList<>();
 
     //temp deque for operation
@@ -50,7 +55,11 @@ public class CalculationService<T extends Number> implements CalcService {
 
         return getAnswer(s);
     }
-
+    /**
+     *  Method get answer it causes parse and than calc main Sequence
+     *  @param s input string
+     *  @value return answer for math sequence
+     * */
     private String getAnswer(String s) {
         stringPosition = 0;
         threadString = s;
@@ -137,6 +146,11 @@ public class CalculationService<T extends Number> implements CalcService {
         tempValue =0;
     }
 
+    /**
+     * Method read next number in the input string
+     * and create new command that it add this command to mainSequnce
+     * @see Command
+     * */
     private void getNextNumber() {
         tempValue = 0;
         while (stringPosition < threadString.length() && (threadString.charAt(stringPosition) == '.'

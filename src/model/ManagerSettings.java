@@ -12,8 +12,12 @@ import java.util.List;
 
 /**
  * Created by CraZy_IVAN on 15.02.16.
+ * Class for settings This class can override operation and delete this override in
+ * the program
+ * @see logic.Controller
+ * @author Gladush Ivan
  */
-//todo it's only for single thread
+
 public class ManagerSettings {
     public static final int MAX_LENGTH_AFTER_DOT = 5;
     public static final int MAX_SING = 18;

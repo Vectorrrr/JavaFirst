@@ -4,6 +4,10 @@ import java.util.Deque;
 
 /**
  * Created by CraZy_IVAN on 20.02.16.
+ * Enum for unary operation that Compatible in program
+ * @see Sing
+ * @see Command
+ * @author Gladush Ivan
  */
 public enum UnaryOperation implements Sing, Command {
     PLUS("+") {

@@ -14,9 +14,16 @@ import java.util.regex.Pattern;
 
 /**
  * Created by igladush on 19.02.16.
+ *
+ * Class implements CalcService
+ * That class created for find some string in the some files
+ *
+ * @author Gladush Ivan
+ * @see CalcService
+ *
  */
 public class SearchService implements CalcService {
-    private final String LENGTH_WITH_WORDS="\t\t\t";
+    private final String LENGTH_WITH_WORDS = "\t\t\t";
     private String path;
     private String regex;
     private String startString;
@@ -24,10 +31,18 @@ public class SearchService implements CalcService {
     private Pattern pattern;
 
 
-    public SearchService(){
+    public SearchService() {
 
     }
 
+    /**
+     * Method take string, parse this string and than
+     * find all file in the path and return string this file
+     * which contain regex
+     *
+     * @param startString String need to be in this format ("path" "regex")
+     * @value all files that contain regex
+     */
     public String calculate(String startString) {
         this.startString = startString.trim();
         findPath();
@@ -49,7 +64,7 @@ public class SearchService implements CalcService {
         if (mainFile.isDirectory()) {
             List<TextSearchResult> result = new ArrayList<>();
             String s[] = mainFile.list();
-            if(s==null){
+            if (s == null) {
                 return result;
             }
             for (char i = 0; i < s.length; ++i) {
@@ -85,15 +100,18 @@ public class SearchService implements CalcService {
             path = path.replaceAll("\\\\" + "\\\\", "/");
             //todo how make this easier
             return new File(path);
-        } else if (Os!=null && Os.contains("Windows")) {
+        } else if (Os != null && Os.contains("Windows")) {
             path = path.replaceAll(";", ":");
-            path = path.replaceAll( "\\\\" + "\\\\","/");
+            path = path.replaceAll("\\\\" + "\\\\", "/");
             return new File(path);
         } else {
             throw new IllegalStateException("I don't know your OC");
         }
     }
 
+    /**
+     * Method highlights path from input string
+     */
     private void findPath() {
         int temp = findFirstChar('(');
         if (temp < 8) {
@@ -110,6 +128,9 @@ public class SearchService implements CalcService {
 
     }
 
+    /**
+     * Method highlights regex from input string
+     */
     private void findRegex() {
         int first = findFirstChar('"');
         int last = findLastChar('"');
@@ -155,40 +176,47 @@ public class SearchService implements CalcService {
         return System.getProperty("os.name");
     }
 
+    /**
+     * Method for search in specific  file
+     * regex. Return all string where method find this regex.
+     * If file NotFount method throw ne exception FileNotFound
+     * @param file Certain file
+     * @value All string that contain regex
+     * @exception FileNotFoundException
+     *
+     * */
     private List<TextSearchResult> searchInFile(File file) {
         //todo where I need think about close file
-        List<TextSearchResult> result=new ArrayList<>();
-        if(!file.canRead()){
+        List<TextSearchResult> result = new ArrayList<>();
+        if (!file.canRead()) {
             return result;
         }
-        if(!file.exists()){
+        if (!file.exists()) {
             return result;
         }
-        try (  Reader read = new FileReader(file.getPath())){
-            if(read==null){
+        try (Reader read = new FileReader(file.getPath())) {
+            if (read == null) {
                 return result;
             }
-            System.out.println("READ FILE "+file.getAbsolutePath());
+            System.out.println("READ FILE " + file.getAbsolutePath());
 
-            while(read.canRead()){
-                String string=read.getString();
-                Matcher mch=pattern.matcher(string);
-                if(mch.matches()){
-                    result.add(new TextSearchResult(file.getPath(),string));
+            while (read.canRead()) {
+                String string = read.getString();
+                Matcher mch = pattern.matcher(string);
+                if (mch.matches()) {
+                    result.add(new TextSearchResult(file.getPath(), string));
                 }
             }
-          //  read.close();
+            //  read.close();
             return result;
-        }catch(FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("CAN't READ!");
             return result;
-        }
-        catch (IOException e) {
-            System.err.print(e+file.getAbsolutePath());
-            throw new IllegalStateException("I can't read this file",e);
+        } catch (IOException e) {
+            System.err.print(e + file.getAbsolutePath());
+            throw new IllegalStateException("I can't read this file", e);
         }
 
 
     }
-
 }

@@ -4,6 +4,10 @@ import java.util.Deque;
 
 /**
  * Created by igladush on 17.02.16.
+ * Enum implements Operation and contains base Binary operation
+ * @see Operation
+ * @author Gladush Ivan
+ *
  */
 public enum BinaryOperation implements Operation {
     PLUS("+", 1) {

@@ -4,6 +4,10 @@ import java.util.Deque;
 
 /**
  * Created by igladush on 19.02.16.
+ * Class created for add calue in mainSequnce
+ * @see logic.service.CalcService
+ * @author Gladush Ivan
+ *
  */
 public class ValueCommand<T extends Number> implements Command {
 

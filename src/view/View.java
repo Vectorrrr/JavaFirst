@@ -9,6 +9,11 @@ import view.writer.Writer;
 
 /**
  * Created by CraZy_IVAN on 15.02.16.
+ * Method created for show user interface in programm
+ *
+ * @see ConsoleWriter
+ * @see ConsoleReader
+ * @author Gladush Ivan
  */
 public class View {
     //menu always print in console

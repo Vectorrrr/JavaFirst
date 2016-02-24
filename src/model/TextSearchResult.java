@@ -2,7 +2,12 @@ package model;
 
 /**
  * Created by igladush on 19.02.16.
+ * This class is container for answer in SearchService
+ *
+ * @see logic.service.SearchService
+ * @author Gladush Ivan
  */
+
 public class TextSearchResult {
 
 

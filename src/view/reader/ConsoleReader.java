@@ -4,6 +4,11 @@ import java.util.Scanner;
 
 /**
  * Created by CraZy_IVAN on 15.02.16.
+ * Method implements Reader/ And created for
+ * read string from console
+ *
+ * @see FileReader
+ * @author Gladush Ivan
  */
 public class ConsoleReader implements Reader {
     private Scanner sc;

@@ -2,6 +2,10 @@ package model.operation;
 
 /**
  * Created by igladush on 17.02.16.
+ * Enum implements Sing and contains bracket that
+ * compatible in program
+ * @see Sing
+ * @author Gladush Ivan
  */
 public enum Bracket implements Sing {
     OPENBRACKET("(", MAX_PRIORY), CLOSEBRACKET(")", MIN_PRIORY);

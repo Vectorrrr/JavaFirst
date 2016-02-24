@@ -7,6 +7,9 @@ import java.util.Scanner;
 
 /**
  * Created by igladush on 18.02.16.
+ * Class created for read string from file
+ * @see ConsoleReader
+ * @author Gladush Ivan
  */
 public class FileReader implements Reader {
     private final static String STRING_EMPTY = "";
@@ -25,8 +28,6 @@ public class FileReader implements Reader {
     @Override
     public String getString() {
         return temp;
-
-
     }
 
     @Override

@@ -13,15 +13,20 @@ import view.writer.ConsoleWriter;
 import java.io.FileNotFoundException;
 
 /**Created by CraZy_IVAN on 15.02.16.
- The class Controller created for manipulate
-
+ * The class Controller created for manipulate with userAns
+ * @see View
+ * @see Reader
+ * @see view.writer.Writer
  * @author  Gladush Ivan
 
 
 
  */
 public class Controller {
-    //todo Controller need writer?
+    /**
+     * Created for read from console for Controller
+     *
+     * */
     private Reader consoleReader;
     private Reader exampleReader;
     private View view;
@@ -143,7 +148,10 @@ public class Controller {
 
     }
 
-    //todo This is Reader Factory?
+    /**
+     * Special metode for created reader
+     *
+     * */
     private boolean createExampleReader() {
         if ("1".equals(userAns)) {
             exampleReader = new ConsoleReader();
