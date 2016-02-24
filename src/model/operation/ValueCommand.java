@@ -23,7 +23,7 @@ public class ValueCommand<T extends Number> implements Command {
     }
 
     @Override
-    public void apply(Deque sequence) {
+    public void apply(Deque<Double> sequence) {
         sequence.push(value);
     }
 }

@@ -1,4 +1,3 @@
-#!/bin/bash
 #Add Path to dir lib
 PROJECT_DIR=/home/igladush/IdeaProjects/FirstProject/JavaFirst
 LIB=$PROJECT_DIR"/lib"
@@ -22,7 +21,33 @@ while IFS= read -r line
      wget -P $LIB $TEMP
    fi
 done <"$LISTOFFILE" 
-export PATH="$PATH:/home/igladush/IdeaProjects/FirstProject/JavaFirst/lib"
+PATH_TO_COMPILE=$PROJECT_DIR"/out"
+if [ ! -e $PATH_TO_COMPILE ]
+then
+   /bin/mkdir -p $PATH_TO_COMPILE
+fi
+echo "Compile..... reader"
+javac -d ./out ./src/view/reader/*
+echo "Compile..... writer"
+javac -d ./out ./src/view/writer/*
+echo "Compile..... function"
+javac -d ./out ./src/model/function/*
+echo "Compile..... operation"
+javac -d ./out ./src/model/operation/*
+echo "Compile..... ManagerSettings"
+javac -d ./out -cp ./out ./src/model/ManagerSettings.java 
+echo "Compile..... TextSearchResult"
+javac -d ./out ./src/model/TextSearchResult.java
+echo "Compile..... View"
+javac -d ./out -cp ./out ./src/view/View.java
+echo "Compile..... Service"
+javac -d ./out -cp ./out ./src/logic/service/*
+echo "Compile..... Controller"
+javac -d ./out -cp ./out ./src/logic/Controller.java
+echo "Compile..... Main"
+javac -d ./out -cp ./out ./src/Main.java
+echo "Run.... Main"
+java -cp ./lib -classpath ./out Main
 
 
 

@@ -12,10 +12,14 @@ import view.writer.ConsoleWriter;
 
 import java.io.FileNotFoundException;
 
-/**
- * Created by CraZy_IVAN on 15.02.16.
- */
+/**Created by CraZy_IVAN on 15.02.16.
+ The class Controller created for manipulate
 
+ * @author  Gladush Ivan
+
+
+
+ */
 public class Controller {
     //todo Controller need writer?
     private Reader consoleReader;
@@ -54,7 +58,7 @@ public class Controller {
     }
 
     private void workWithConsole() {
-        boolean z=true;
+        boolean z = true;
         while (z) {
             view.printMainMenu();
             try {
@@ -66,7 +70,7 @@ public class Controller {
             switch (userAns) {
                 case ("0"):
                     view.Buy();
-                    z=false;
+                    z = false;
                     break;
                 case ("1"):
                     doCalc();
@@ -81,7 +85,7 @@ public class Controller {
     }
 
     private void workWithFile() {
-        boolean z=true;
+        boolean z = true;
         while (z) {
             view.printFileMenu();
             try {
@@ -105,7 +109,7 @@ public class Controller {
                     break;
                 default:
                     consoleWriter.write("You input incorrect value\n Try again\n");
-                    z=false;
+                    z = false;
                     break;
             }
         }
@@ -128,9 +132,9 @@ public class Controller {
         } else {
             consoleWriter.write("If you want calc Integer input 1");
             consoleWriter.write("Else you calc in Double");
-            String temp=consoleReader.getString();
-            switch (temp){
-                case"1":
+            String temp = consoleReader.getString();
+            switch (temp) {
+                case "1":
                     return new CalculationService<Integer>(1);
                 default:
                     return new CalculationService<Double>(12.2);
